@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Home Sentinel | Home Grid</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body class="app-body">
+    <div class="ambient-grid" aria-hidden="true"></div>
+
+    <header class="topbar">
+      <a class="brand" href="./index.html">
+        <span class="brand-mark">HS</span>
+        <span class="brand-copy">
+          <strong>Home Sentinel</strong>
+          <small>Residential Security Command</small>
+        </span>
+      </a>
+
+      <nav class="nav-links" aria-label="Primary">
+        <a href="./index.html">Command Center</a>
+        <a href="./threat-console.html">Threat Console</a>
+        <a aria-current="page" href="./home-grid.html">Home Grid</a>
+        <a href="https://security-app-production.up.railway.app" target="_blank" rel="noreferrer">SecSecurity</a>
+      </nav>
+
+      <div class="topbar-status">
+        <span class="status-pill status-pill-inline" id="grid-mode-pill">Mode: Disarmed</span>
+        <span class="status-pill status-pill-inline" id="grid-risk-pill">Risk: 0</span>
+      </div>
+    </header>
+
+    <main class="app-shell grid-page">
+      <section class="panel grid-hero reveal">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Home Grid</p>
+            <h1>Control room posture, resolve alerts, and inspect device drift without leaving the floor view.</h1>
+          </div>
+          <a class="button button-secondary" href="./threat-console.html">Go to Threat Console</a>
+        </div>
+
+        <div class="hero-status-row">
+          <span class="status-pill"><span>Site</span><strong id="grid-site">Unconfigured Site</strong></span>
+          <span class="status-pill"><span>Mode</span><strong id="grid-mode">Disarmed</strong></span>
+          <span class="status-pill"><span>Risk Score</span><strong id="grid-risk">0</strong></span>
+          <span class="status-pill"><span>Updated</span><strong id="grid-updated">Awaiting scan</strong></span>
+        </div>
+
+        <p class="inline-note" id="grid-note">
+          No demo incidents are loaded. This view stays empty until a real site or data source is configured.
+        </p>
+      </section>
+
+      <section class="grid-layout reveal reveal-delay-1">
+        <article class="panel panel-span-2">
+          <div class="section-heading compact">
+            <div>
+              <p class="eyebrow">Room Coverage</p>
+              <h2>Protection posture by zone</h2>
+            </div>
+          </div>
+
+          <div class="room-grid" id="room-grid"></div>
+        </article>
+
+        <article class="panel">
+          <div class="section-heading compact">
+            <div>
+              <p class="eyebrow">Incident Queue</p>
+              <h2>Resolve or verify</h2>
+            </div>
+          </div>
+
+          <div class="stack-list" id="grid-alerts"></div>
+        </article>
+      </section>
+
+      <section class="split-layout reveal reveal-delay-2">
+        <article class="panel">
+          <div class="section-heading compact">
+            <div>
+              <p class="eyebrow">Device Inventory</p>
+              <h2>Locks, cameras, sensors, and gateway health</h2>
+            </div>
+          </div>
+
+          <div class="inventory-list" id="device-inventory"></div>
+        </article>
+
+        <article class="panel">
+          <div class="section-heading compact">
+            <div>
+              <p class="eyebrow">Playbooks</p>
+              <h2>Automations protecting the house</h2>
+            </div>
+          </div>
+
+          <div class="compact-list" id="playbook-list"></div>
+        </article>
+      </section>
+    </main>
+
+    <script type="module" src="./src/homeGrid.js"></script>
+  </body>
+</html>

@@ -1,0 +1,9 @@
+.codex/
+.railway/
+logs/
+node_modules/
+output/
+dist/
+build/
+.DS_Store
+Thumbs.db

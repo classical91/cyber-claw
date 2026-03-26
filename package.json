@@ -1,0 +1,11 @@
+{
+  "name": "home-sentinel",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "node server.js",
+    "server": "node server.js",
+    "start": "node server.js"
+  }
+}

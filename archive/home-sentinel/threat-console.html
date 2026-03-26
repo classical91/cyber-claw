@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Home Sentinel | Threat Console</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body class="app-body">
+    <div class="ambient-grid" aria-hidden="true"></div>
+
+    <header class="topbar">
+      <a class="brand" href="./index.html">
+        <span class="brand-mark">HS</span>
+        <span class="brand-copy">
+          <strong>Home Sentinel</strong>
+          <small>Residential Security Command</small>
+        </span>
+      </a>
+
+      <nav class="nav-links" aria-label="Primary">
+        <a href="./index.html">Command Center</a>
+        <a aria-current="page" href="./threat-console.html">Threat Console</a>
+        <a href="./home-grid.html">Home Grid</a>
+      </nav>
+
+      <div class="topbar-status">
+        <span class="status-pill status-pill-inline" id="console-mode-pill">Mode: Home</span>
+        <span class="status-pill status-pill-inline" id="console-risk-pill">Risk: 0</span>
+      </div>
+    </header>
+
+    <main class="app-shell console-layout">
+      <section class="panel console-stage reveal">
+        <div class="console-toolbar">
+          <div class="toolbar-meta">
+            <span class="toolbar-chip">Site <strong id="console-site">Jason Residence</strong></span>
+            <span class="toolbar-chip">Edge Mesh <strong id="console-mesh">Sentinel Mesh</strong></span>
+            <span class="toolbar-chip">Last Update <strong id="console-updated">Awaiting scan</strong></span>
+          </div>
+        </div>
+
+        <div class="console-log" id="console-log" aria-live="polite"></div>
+
+        <div class="console-quick-row" id="console-quick-row"></div>
+
+        <form class="command-form" id="command-form">
+          <label class="sr-only" for="command-input">Console command</label>
+          <span class="command-prefix">cmd</span>
+          <input
+            id="command-input"
+            name="command"
+            type="text"
+            autocomplete="off"
+            placeholder="scan perimeter, scan network, review front door, arm away..."
+          />
+          <button class="button button-primary" type="submit">Execute</button>
+        </form>
+      </section>
+
+      <aside class="sidebar-stack reveal reveal-delay-1">
+        <article class="panel">
+          <div class="section-heading compact">
+            <div>
+              <p class="eyebrow">Posture Snapshot</p>
+              <h2>Live protection state</h2>
+            </div>
+          </div>
+
+          <div class="summary-grid" id="console-summary"></div>
+        </article>
+
+        <article class="panel">
+          <div class="section-heading compact">
+            <div>
+              <p class="eyebrow">Suggested Commands</p>
+              <h2>Fast operator shortcuts</h2>
+            </div>
+          </div>
+
+          <div class="action-stack" id="suggested-commands"></div>
+        </article>
+
+        <article class="panel">
+          <div class="section-heading compact">
+            <div>
+              <p class="eyebrow">Open Alerts</p>
+              <h2>What still needs attention</h2>
+            </div>
+          </div>
+
+          <div class="compact-list" id="console-alerts"></div>
+        </article>
+      </aside>
+    </main>
+
+    <script type="module" src="./src/threatConsole.js"></script>
+  </body>
+</html>

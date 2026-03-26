@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>NULLVAULT</title>
+    <link rel="stylesheet" href="/nullvault.css" />
+  </head>
+  <body>
+    <div id="app">
+      <div id="topbar">
+        <div id="brand-lockup">
+          <div id="brand-mark"></div>
+          <div id="logo">NULLVAULT</div>
+        </div>
+        <div id="menu-strip">
+          <button class="menu-btn" type="button">File</button>
+          <button class="menu-btn" type="button">Edit</button>
+          <button class="menu-btn" id="view-menu-button" data-menu="view" type="button">View</button>
+          <button class="menu-btn" type="button">Capture</button>
+          <button class="menu-btn" type="button">Analyze</button>
+          <button class="menu-btn" type="button">Statistics</button>
+          <button class="menu-btn" type="button">Wireless</button>
+          <button class="menu-btn" type="button">Tools</button>
+          <button class="menu-btn" type="button">Help</button>
+        </div>
+        <div class="top-divider"></div>
+        <div class="top-group">
+          <span class="top-label">Provider</span>
+          <span class="top-value" id="provider-value">local core</span>
+        </div>
+        <div class="top-divider"></div>
+        <div class="top-group">
+          <span class="top-label">Server</span>
+          <span class="top-value" id="server-value">nullvault.local:30003</span>
+        </div>
+        <div class="top-divider"></div>
+        <div class="top-group">
+          <span class="top-label">Site</span>
+          <span class="top-value" id="site-value">Local Network</span>
+        </div>
+        <div id="model-badge">live network workspace</div>
+        <div class="top-icons">
+          <button class="top-icon-btn" id="settings-btn" title="Settings" type="button">&#9881;</button>
+          <button class="top-icon-btn win-btn" id="win-min" title="Minimize" type="button">_</button>
+          <button class="top-icon-btn win-btn" id="win-max" title="Maximize" type="button">[]</button>
+          <button class="top-icon-btn win-btn" id="win-close" title="Close" type="button">X</button>
+        </div>
+      </div>
+
+      <div id="menu-popovers" class="hidden" aria-hidden="true">
+        <div class="menu-popover hidden" id="view-menu">
+          <button class="menu-entry menu-entry-toggle" data-menu-toggle="showMainToolbar" type="button">
+            <span class="menu-marker"></span>
+            <span class="menu-label">Main Toolbar</span>
+          </button>
+          <button class="menu-entry menu-entry-toggle" data-menu-toggle="showFilterToolbar" type="button">
+            <span class="menu-marker"></span>
+            <span class="menu-label">Filter Toolbar</span>
+          </button>
+          <button class="menu-entry menu-entry-toggle" data-menu-toggle="showStatusBar" type="button">
+            <span class="menu-marker"></span>
+            <span class="menu-label">Status Bar</span>
+          </button>
+          <div class="menu-separator"></div>
+          <button class="menu-entry" id="menu-fullscreen-btn" type="button">
+            <span class="menu-marker"></span>
+            <span class="menu-label">Full Screen</span>
+          </button>
+          <div class="menu-separator"></div>
+          <button class="menu-entry menu-entry-static checked" data-menu-focus="detail" type="button">
+            <span class="menu-marker"></span>
+            <span class="menu-label">Packet Details</span>
+          </button>
+          <button class="menu-entry menu-entry-static checked" data-menu-focus="diagram" type="button">
+            <span class="menu-marker"></span>
+            <span class="menu-label">Packet Diagram</span>
+          </button>
+          <button class="menu-entry menu-entry-static checked" data-menu-focus="bytes" type="button">
+            <span class="menu-marker"></span>
+            <span class="menu-label">Packet Bytes</span>
+          </button>
+          <div class="menu-separator"></div>
+          <div class="menu-entry-group has-submenu">
+            <button class="menu-entry menu-entry-submenu" type="button">
+              <span class="menu-marker"></span>
+              <span class="menu-label">Time Display Format</span>
+              <span class="menu-arrow">&#9656;</span>
+            </button>
+            <div class="menu-submenu" id="time-format-menu">
+              <button class="menu-entry menu-entry-radio" data-time-display="dateTime" type="button">
+                <span class="menu-marker"></span>
+                <span class="menu-label">Date and Time of Day</span>
+              </button>
+              <button class="menu-entry menu-entry-radio" data-time-display="seconds" type="button">
+                <span class="menu-marker"></span>
+                <span class="menu-label">Seconds Since Beginning Of Capture</span>
+              </button>
+              <button class="menu-entry menu-entry-radio" data-time-display="sincePrevious" type="button">
+                <span class="menu-marker"></span>
+                <span class="menu-label">Seconds Since Previous Displayed Packet</span>
+              </button>
+              <button class="menu-entry menu-entry-radio" data-time-display="utcDateTime" type="button">
+                <span class="menu-marker"></span>
+                <span class="menu-label">UTC Date and Time of Day</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="toolbar">
+        <button class="tool-btn accent" id="new-chat-btn" type="button">
+          <span class="tool-glyph glyph-new"></span>
+          <span>New Capture</span>
+        </button>
+        <button class="tool-btn" id="attach-btn" type="button">
+          <span class="tool-glyph glyph-reset"></span>
+          <span>Reset View</span>
+        </button>
+        <button class="tool-btn" id="command-btn" type="button">
+          <span class="tool-glyph glyph-examples"></span>
+          <span>Examples</span>
+        </button>
+        <div class="tool-separator"></div>
+        <button class="tool-btn" data-command="wifi audit" type="button">
+          <span class="tool-glyph glyph-audit"></span>
+          <span>Wi-Fi Audit</span>
+        </button>
+        <button class="tool-btn" data-command="wireshark status" type="button">
+          <span class="tool-glyph glyph-status"></span>
+          <span>Live Status</span>
+        </button>
+        <button class="tool-btn" data-command="wireshark interfaces" type="button">
+          <span class="tool-glyph glyph-scan"></span>
+          <span>Interfaces</span>
+        </button>
+        <button class="tool-btn" data-command="wireshark capture iface=1 sec=10 packets=300" type="button">
+          <span class="tool-glyph glyph-secure"></span>
+          <span>Capture 10s</span>
+        </button>
+        <div id="capture-summary"></div>
+      </div>
+
+      <div id="filterbar">
+        <span id="filter-label">Display Filter</span>
+        <input
+          id="message-input"
+          type="text"
+          autocomplete="off"
+          placeholder="wifi audit | scan network | wireshark status | wireshark interfaces | wireshark capture iface=1 sec=10"
+        />
+        <button id="send-btn" type="button">Analyze</button>
+      </div>
+
+      <div id="workspace">
+        <section class="panel" id="packet-panel">
+          <div class="panel-head">
+            <span>Packet List</span>
+            <span class="panel-meta" id="packet-meta">Waiting for live telemetry</span>
+          </div>
+          <div class="panel-body packet-table-wrap">
+            <table id="packet-table">
+              <thead>
+                <tr>
+                  <th class="col-no">No.</th>
+                  <th class="col-time">Time</th>
+                  <th class="col-source">Source</th>
+                  <th class="col-destination">Destination</th>
+                  <th class="col-protocol">Protocol</th>
+                  <th class="col-length">Length</th>
+                  <th class="col-info">Info</th>
+                </tr>
+              </thead>
+              <tbody id="packet-body"></tbody>
+            </table>
+          </div>
+        </section>
+
+        <div id="lower-workspace" data-layout="overview">
+          <section class="panel" id="detail-panel">
+            <div class="panel-head">
+              <span>Packet Details</span>
+              <span class="panel-meta" id="detail-meta">Layer tree</span>
+            </div>
+            <div class="panel-body" id="detail-tree"></div>
+          </section>
+
+          <section class="panel" id="diagram-panel">
+            <div class="panel-head">
+              <span>Packet Diagram</span>
+              <span class="panel-meta" id="selection-text">No frame selected</span>
+            </div>
+            <div class="panel-body" id="protocol-map"></div>
+          </section>
+
+          <section class="panel" id="bytes-panel">
+            <div class="panel-head panel-head-tabs">
+              <span id="aux-panel-title">Packet Bytes</span>
+              <div class="panel-tabs" id="aux-tabs">
+                <button class="panel-tab active" data-aux-view="bytes" type="button">
+                  Packet Bytes
+                </button>
+                <button class="panel-tab" data-aux-view="analysis" type="button">Analysis</button>
+                <button class="panel-tab" data-aux-view="history" type="button">History</button>
+              </div>
+            </div>
+            <div class="panel-body aux-panel-body">
+              <div id="byte-view"></div>
+              <div id="summary-panel" class="hidden"></div>
+              <div id="history-panel" class="hidden"></div>
+            </div>
+          </section>
+        </div>
+      </div>
+
+      <div id="thinking-bar" class="hidden">
+        <span>Analyzing capture...</span>
+      </div>
+
+      <div id="statusbar">
+        <div class="status-item">
+          <div class="status-led"></div>
+          <span id="status-text">READY</span>
+        </div>
+        <span id="selection-status">Frame 1 selected</span>
+        <span id="last-response">Live workspace initializing</span>
+        <div id="token-count">
+          <span id="token-text">0 packets</span>
+          <div class="token-bar-wrap">
+            <div class="token-bar-fill" id="token-bar" style="width: 0%"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="config-modal" class="hidden">
+      <div class="prefs-window">
+        <div class="prefs-titlebar">
+          <div class="prefs-title">Wireshark - Preferences</div>
+          <button class="prefs-close" id="config-close-btn" type="button">X</button>
+        </div>
+        <div class="prefs-shell">
+          <aside class="prefs-sidebar">
+            <button class="prefs-nav-item active" data-pref-panel="appearance" type="button">
+              Appearance
+            </button>
+            <button class="prefs-nav-item" data-pref-panel="columns" type="button">Columns</button>
+            <button class="prefs-nav-item" data-pref-panel="fonts" type="button">
+              Font and Colors
+            </button>
+            <button class="prefs-nav-item" data-pref-panel="capture" type="button">Capture</button>
+            <button class="prefs-nav-item" data-pref-panel="filters" type="button">
+              Filter Buttons
+            </button>
+            <button class="prefs-nav-item" data-pref-panel="resolution" type="button">
+              Name Resolution
+            </button>
+            <button class="prefs-nav-item" data-pref-panel="statistics" type="button">
+              Statistics
+            </button>
+            <button class="prefs-nav-item" data-pref-panel="advanced" type="button">
+              Advanced
+            </button>
+          </aside>
+          <div class="prefs-content">
+            <section class="prefs-pane active" data-pref-panel="appearance">
+              <div class="prefs-pane-head">
+                <h2>Appearance</h2>
+                <p>Layout and Columns</p>
+              </div>
+              <div class="layout-card-grid">
+                <label class="layout-card" data-layout-option="overview">
+                  <input type="radio" name="pane-layout" value="overview" checked />
+                  <span class="layout-mini layout-overview">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                  </span>
+                  <span class="layout-name">Overview</span>
+                  <span class="layout-caption">Details left, diagram and bytes stacked right.</span>
+                </label>
+                <label class="layout-card" data-layout-option="columns">
+                  <input type="radio" name="pane-layout" value="columns" />
+                  <span class="layout-mini layout-columns">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                  </span>
+                  <span class="layout-name">Three Columns</span>
+                  <span class="layout-caption">All lower panes visible side by side.</span>
+                </label>
+                <label class="layout-card" data-layout-option="stacked">
+                  <input type="radio" name="pane-layout" value="stacked" />
+                  <span class="layout-mini layout-stacked">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                  </span>
+                  <span class="layout-name">Stacked</span>
+                  <span class="layout-caption">Classic vertical inspection workflow.</span>
+                </label>
+                <label class="layout-card" data-layout-option="focused">
+                  <input type="radio" name="pane-layout" value="focused" />
+                  <span class="layout-mini layout-focused">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                  </span>
+                  <span class="layout-name">Focused Diagram</span>
+                  <span class="layout-caption">Extra space for packet diagram review.</span>
+                </label>
+              </div>
+              <div class="prefs-two-col">
+                <div class="prefs-group">
+                  <div class="prefs-group-title">Packet List Settings</div>
+                  <label class="prefs-check">
+                    <input type="checkbox" id="pref-show-separator" checked />
+                    <span>Show packet separator</span>
+                  </label>
+                  <label class="prefs-check">
+                    <input type="checkbox" id="pref-show-column-menu" checked />
+                    <span>Show column definition menu</span>
+                  </label>
+                </div>
+                <div class="prefs-group">
+                  <div class="prefs-group-title">Status Bar Settings</div>
+                  <label class="prefs-check">
+                    <input type="checkbox" id="pref-show-selected-frame" checked />
+                    <span>Show selected packet number</span>
+                  </label>
+                  <label class="prefs-check">
+                    <input type="checkbox" id="pref-show-load-time" />
+                    <span>Show file load time</span>
+                  </label>
+                </div>
+              </div>
+            </section>
+
+            <section class="prefs-pane" data-pref-panel="columns">
+              <div class="prefs-pane-head">
+                <h2>Columns</h2>
+                <p>Choose which columns stay visible in the packet list.</p>
+              </div>
+              <div class="prefs-group">
+                <label class="prefs-check"><input type="checkbox" checked disabled /><span>No.</span></label>
+                <label class="prefs-check"><input type="checkbox" checked /><span>Time</span></label>
+                <label class="prefs-check"><input type="checkbox" checked /><span>Source</span></label>
+                <label class="prefs-check"><input type="checkbox" checked /><span>Destination</span></label>
+                <label class="prefs-check"><input type="checkbox" checked /><span>Protocol</span></label>
+                <label class="prefs-check"><input type="checkbox" checked /><span>Length</span></label>
+                <label class="prefs-check"><input type="checkbox" checked /><span>Info</span></label>
+              </div>
+            </section>
+
+            <section class="prefs-pane" data-pref-panel="fonts">
+              <div class="prefs-pane-head">
+                <h2>Font and Colors</h2>
+                <p>Dense monospace rows with soft protocol tinting, modeled after Wireshark.</p>
+              </div>
+              <div class="prefs-note">
+                Packet list colors are driven by protocol tone and alert severity. This page is
+                visual-only for now so the analyzer keeps a consistent desktop look.
+              </div>
+            </section>
+
+            <section class="prefs-pane" data-pref-panel="capture">
+              <div class="prefs-pane-head">
+                <h2>Live Workspace</h2>
+                <p>Update the site label or clear the current live command session.</p>
+              </div>
+              <div class="prefs-form">
+                <label class="prefs-field">
+                  <span>Site name</span>
+                  <input type="text" id="site-name-input" placeholder="Site name" />
+                </label>
+                <div class="prefs-note">
+                  Provider and server labels are updated automatically from the local runtime.
+                </div>
+                <button class="prefs-action prefs-action-secondary" id="config-reset-btn" type="button">
+                  Clear Session
+                </button>
+              </div>
+            </section>
+
+            <section class="prefs-pane" data-pref-panel="filters">
+              <div class="prefs-pane-head">
+                <h2>Filter Buttons</h2>
+                <p>Use the green display filter bar to launch built-in inspections and scans.</p>
+              </div>
+              <div class="prefs-note">
+                Suggested filters include <code>wifi audit</code>, <code>wireshark status</code>,
+                and <code>scan network</code>.
+              </div>
+            </section>
+
+            <section class="prefs-pane" data-pref-panel="resolution">
+              <div class="prefs-pane-head">
+                <h2>Name Resolution</h2>
+                <p>External endpoints are shown as raw IP addresses to keep local audits deterministic.</p>
+              </div>
+              <div class="prefs-note">
+                A later pass can add optional hostname lookups and device fingerprint hints.
+              </div>
+            </section>
+
+            <section class="prefs-pane" data-pref-panel="statistics">
+              <div class="prefs-pane-head">
+                <h2>Statistics</h2>
+                <p>Protocol counts, findings, and command history are available in the lower pane tabs.</p>
+              </div>
+              <div class="prefs-note">
+                Switch the lower-right tab between packet bytes, analysis, and history while reviewing a frame.
+              </div>
+            </section>
+
+            <section class="prefs-pane" data-pref-panel="advanced">
+              <div class="prefs-pane-head">
+                <h2>Advanced</h2>
+                <p>Desktop shell details for the local capture workspace.</p>
+              </div>
+              <div class="prefs-note prefs-note-grid">
+                <span><strong>Provider:</strong> local desktop core</span>
+                <span><strong>Server:</strong> nullvault.local runtime</span>
+                <span><strong>Live capture:</strong> requires TShark + Npcap on Windows</span>
+              </div>
+            </section>
+          </div>
+        </div>
+        <div class="prefs-footer">
+          <button class="prefs-footer-btn prefs-footer-secondary" id="config-defaults-btn" type="button">
+            Restore Defaults
+          </button>
+          <div class="prefs-footer-actions">
+            <button class="prefs-footer-btn prefs-footer-secondary" id="config-cancel-btn" type="button">
+              Cancel
+            </button>
+            <button class="prefs-footer-btn" id="config-save-btn" type="button">OK</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script type="module" src="/src/nullvaultApp.js"></script>
+  </body>
+</html>

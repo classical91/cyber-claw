@@ -1,0 +1,16 @@
+{
+  "name": "nullvault",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "main": "electron/main.js",
+  "scripts": {
+    "dev": "node server.js",
+    "desktop": "electron .",
+    "desktop:dev": "electron .",
+    "test": "node --test --experimental-test-isolation=none"
+  },
+  "devDependencies": {
+    "electron": "^41.0.3"
+  }
+}
