@@ -1,4 +1,4 @@
-import { createReadStream, existsSync } from "node:fs";
+import { createReadStream, existsSync, statSync } from "node:fs";
 import { stat } from "node:fs/promises";
 import http from "node:http";
 import path from "node:path";
@@ -16,49 +16,46 @@ const mimeTypes = {
   ".svg": "image/svg+xml; charset=utf-8"
 };
 
+function isFile(p) {
+  try { return statSync(p).isFile(); } catch { return false; }
+}
+
 function resolveFilePath(pathname) {
-  // Root
   if (pathname === "/" || pathname === "") return "index.html";
 
-  const clean = pathname.replace(/^\/+/, "");
+  // Strip leading slashes, normalize
+  const clean = pathname.replace(/^\/+/, "").replace(/\/+$/, "");
 
-  // Exact file — check first
+  // 1. Try exact file
   const exactPath = path.join(__dirname, clean);
-  if (existsSync(exactPath)) {
-    return clean;
-  }
+  if (isFile(exactPath)) return clean;
 
-  // Directory index — e.g. /seccheck/ -> seccheck/index.html
-  const indexPath = path.join(__dirname, clean.replace(/\/$/, ""), "index.html");
-  if (existsSync(indexPath)) {
-    return path.join(clean.replace(/\/$/, ""), "index.html");
-  }
+  // 2. Try as directory index (e.g. seccheck -> seccheck/index.html)
+  const indexPath = path.join(__dirname, clean, "index.html");
+  if (isFile(indexPath)) return path.join(clean, "index.html");
 
-  // SPA fallback — if path starts with a known SPA prefix, serve its index.html
-  const parts = clean.split("/");
-  const spaDirs = ["seccheck"];
-  if (spaDirs.includes(parts[0])) {
-    const spaIndex = path.join(__dirname, parts[0], "index.html");
-    if (existsSync(spaIndex)) return path.join(parts[0], "index.html");
-  }
+  // 3. SPA fallback for known subdirs
+  const topDir = clean.split("/")[0];
+  const spaIndex = path.join(__dirname, topDir, "index.html");
+  if (isFile(spaIndex)) return path.join(topDir, "index.html");
 
-  return clean;
+  return null;
 }
 
 const server = http.createServer(async (request, response) => {
   try {
     const url = new URL(request.url || "/", `http://${request.headers.host}`);
     const resolved = resolveFilePath(url.pathname);
-    const filePath = path.join(__dirname, resolved);
 
-    if (!filePath.startsWith(__dirname) || !existsSync(filePath)) {
+    if (!resolved) {
       response.writeHead(404, { "Content-Type": "text/plain; charset=utf-8" });
       response.end("Not found");
       return;
     }
 
-    const fileStats = await stat(filePath);
-    if (!fileStats.isFile()) {
+    const filePath = path.join(__dirname, resolved);
+
+    if (!filePath.startsWith(__dirname) || !isFile(filePath)) {
       response.writeHead(404, { "Content-Type": "text/plain; charset=utf-8" });
       response.end("Not found");
       return;
