@@ -14,13 +14,21 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const DEFAULT_PORT = Number(process.env.NULLVAULT_PORT) || 30003;
 const DEFAULT_HOST_LABEL = process.env.NULLVAULT_HOSTNAME || "nullvault.local";
+const IS_PUBLIC_DEPLOY = Boolean(
+  process.env.RAILWAY_ENVIRONMENT ||
+    process.env.RAILWAY_PROJECT_ID ||
+    process.env.NULLVAULT_PUBLIC_DEPLOY === "1"
+);
+const LOCAL_API_TOKEN = process.env.NULLVAULT_LOCAL_API_TOKEN || "";
 
 const mimeTypes = {
   ".css": "text/css; charset=utf-8",
   ".html": "text/html; charset=utf-8",
   ".js": "text/javascript; charset=utf-8",
   ".json": "application/json; charset=utf-8",
-  ".svg": "image/svg+xml; charset=utf-8"
+  ".svg": "image/svg+xml; charset=utf-8",
+  ".txt": "text/plain; charset=utf-8",
+  ".xml": "application/xml; charset=utf-8"
 };
 
 let activeServer = null;
@@ -28,6 +36,37 @@ let activeServer = null;
 function sendJson(response, statusCode, payload) {
   response.writeHead(statusCode, { "Content-Type": "application/json; charset=utf-8" });
   response.end(JSON.stringify(payload));
+}
+
+function normalizeRemoteAddress(address = "") {
+  return String(address).replace(/^::ffff:/, "");
+}
+
+function isLoopbackAddress(address = "") {
+  const normalized = normalizeRemoteAddress(address);
+  return normalized === "::1" || normalized === "127.0.0.1" || normalized.startsWith("127.");
+}
+
+function isTrustedLocalRequest(request) {
+  if (IS_PUBLIC_DEPLOY) {
+    return false;
+  }
+
+  const token = request.headers["x-nullvault-local-token"];
+  if (LOCAL_API_TOKEN && token === LOCAL_API_TOKEN) {
+    return true;
+  }
+
+  return isLoopbackAddress(request.socket.remoteAddress);
+}
+
+function sendLocalApiDisabled(response) {
+  sendJson(response, 403, {
+    ok: false,
+    available: false,
+    error:
+      "Local capture APIs are disabled outside trusted local mode. Run NULLVAULT on localhost to use host network tooling."
+  });
 }
 
 function clampNumber(value, defaults) {
@@ -279,6 +318,14 @@ function buildPcapArgs(options) {
 }
 
 async function handleApi(request, response, url) {
+  if (
+    (url.pathname.startsWith("/api/wifi/") || url.pathname.startsWith("/api/wireshark/")) &&
+    !isTrustedLocalRequest(request)
+  ) {
+    sendLocalApiDisabled(response);
+    return true;
+  }
+
   if (request.method === "GET" && url.pathname === "/api/wifi/no-install-audit") {
     const audit = await getNoInstallWifiAudit();
     sendJson(response, 200, audit);
@@ -395,7 +442,7 @@ async function handleApi(request, response, url) {
   return false;
 }
 
-function createRequestHandler() {
+export function createRequestHandler({ basePath = "" } = {}) {
   return async (request, response) => {
     try {
       const url = new URL(request.url || "/", `http://${request.headers.host}`);
@@ -405,7 +452,12 @@ function createRequestHandler() {
         return;
       }
 
-      const requestedPath = url.pathname === "/" ? "index.html" : url.pathname.replace(/^\/+/, "");
+      let staticPath = url.pathname;
+      if (basePath && (staticPath === basePath || staticPath.startsWith(`${basePath}/`))) {
+        staticPath = staticPath.slice(basePath.length) || "/";
+      }
+
+      const requestedPath = staticPath === "/" ? "index.html" : staticPath.replace(/^\/+/, "");
       const filePath = path.join(__dirname, requestedPath);
 
       if (!filePath.startsWith(__dirname) || !existsSync(filePath)) {

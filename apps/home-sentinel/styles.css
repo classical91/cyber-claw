@@ -1,27 +1,29 @@
 :root {
   color-scheme: dark;
-  --bg: #04070a;
-  --bg-strong: #091017;
-  --panel: rgba(10, 18, 24, 0.88);
-  --panel-strong: rgba(13, 24, 31, 0.96);
-  --panel-soft: rgba(13, 21, 27, 0.72);
-  --line: rgba(123, 251, 183, 0.12);
-  --line-strong: rgba(123, 251, 183, 0.22);
-  --text: #edf7f3;
-  --muted: #8da5a0;
-  --accent: #61f0aa;
-  --accent-strong: #13c87b;
-  --accent-soft: rgba(97, 240, 170, 0.14);
+  --bg: #111311;
+  --bg-strong: #171917;
+  --panel: rgba(37, 38, 34, 0.9);
+  --panel-strong: rgba(44, 45, 40, 0.97);
+  --panel-soft: rgba(52, 53, 47, 0.72);
+  --line: rgba(210, 204, 188, 0.14);
+  --line-strong: rgba(227, 219, 196, 0.24);
+  --text: #f3f0e8;
+  --muted: #b9b3a5;
+  --accent: #9ff26b;
+  --accent-strong: #63c64b;
+  --accent-soft: rgba(159, 242, 107, 0.13);
   --danger: #ff7389;
   --danger-soft: rgba(255, 115, 137, 0.14);
   --warn: #ffbe5c;
   --warn-soft: rgba(255, 190, 92, 0.16);
   --info: #7ebdff;
   --info-soft: rgba(126, 189, 255, 0.14);
-  --shadow: 0 24px 64px rgba(0, 0, 0, 0.34);
-  --radius-xl: 28px;
-  --radius-lg: 20px;
-  --radius-md: 16px;
+  --concrete-grain: rgba(255, 255, 255, 0.035);
+  --concrete-pit: rgba(0, 0, 0, 0.2);
+  --shadow: 0 22px 54px rgba(0, 0, 0, 0.42);
+  --radius-xl: 10px;
+  --radius-lg: 8px;
+  --radius-md: 6px;
   --max-width: 1380px;
   --font-ui: "Bahnschrift", "Segoe UI Variable Text", "Segoe UI", sans-serif;
   --font-display: "Sitka Display", "Georgia", serif;
@@ -42,9 +44,9 @@ body {
   font-family: var(--font-ui);
   color: var(--text);
   background:
-    radial-gradient(circle at top left, rgba(23, 81, 58, 0.24), transparent 30%),
-    radial-gradient(circle at 90% 10%, rgba(8, 37, 54, 0.32), transparent 26%),
-    linear-gradient(180deg, #05080c 0%, #050a0f 34%, #04070a 100%);
+    radial-gradient(circle at 18% 8%, rgba(146, 139, 116, 0.18), transparent 32%),
+    radial-gradient(circle at 88% 16%, rgba(72, 92, 70, 0.18), transparent 26%),
+    linear-gradient(180deg, #1a1b18 0%, #111311 42%, #0b0d0c 100%);
 }
 
 body::before {
@@ -53,8 +55,12 @@ body::before {
   inset: 0;
   pointer-events: none;
   background:
-    radial-gradient(circle at center, rgba(255, 255, 255, 0.03), transparent 60%),
-    linear-gradient(180deg, rgba(255, 255, 255, 0.02), transparent 28%);
+    radial-gradient(circle at 20% 30%, var(--concrete-grain) 0 1px, transparent 1px 5px),
+    radial-gradient(circle at 70% 20%, var(--concrete-pit) 0 1px, transparent 1px 7px),
+    linear-gradient(90deg, transparent 0 calc(50% - 1px), rgba(227, 219, 196, 0.055) calc(50% - 1px) calc(50% + 1px), transparent calc(50% + 1px)),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.025), transparent 28%);
+  background-size: 9px 9px, 13px 13px, 100% 100%, 100% 100%;
+  opacity: 0.9;
 }
 
 a {
@@ -84,9 +90,9 @@ select {
   inset: 0;
   pointer-events: none;
   background-image:
-    linear-gradient(rgba(97, 240, 170, 0.025) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(97, 240, 170, 0.025) 1px, transparent 1px);
-  background-size: 42px 42px;
+    linear-gradient(rgba(227, 219, 196, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(227, 219, 196, 0.035) 1px, transparent 1px);
+  background-size: 96px 96px;
   mask-image: radial-gradient(circle at center, rgba(0, 0, 0, 0.85), transparent 92%);
 }
 
@@ -116,10 +122,10 @@ select {
   height: 46px;
   display: grid;
   place-items: center;
-  border-radius: 16px;
+  border-radius: var(--radius-lg);
   border: 1px solid var(--line-strong);
   background:
-    linear-gradient(135deg, rgba(97, 240, 170, 0.14), rgba(14, 18, 22, 0.9)),
+    linear-gradient(135deg, rgba(159, 242, 107, 0.13), rgba(31, 33, 30, 0.92)),
     var(--panel-strong);
   box-shadow: var(--shadow);
   color: var(--accent);
@@ -189,7 +195,9 @@ select {
   border-radius: var(--radius-xl);
   border: 1px solid var(--line);
   background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.01), transparent 28%),
+    radial-gradient(circle at 18% 20%, rgba(255, 255, 255, 0.05) 0 1px, transparent 1px 7px),
+    radial-gradient(circle at 78% 28%, rgba(0, 0, 0, 0.16) 0 1px, transparent 1px 9px),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.035), transparent 32%),
     var(--panel);
   box-shadow: var(--shadow);
   backdrop-filter: blur(16px);
@@ -203,7 +211,9 @@ select {
   position: absolute;
   inset: 0;
   pointer-events: none;
-  background: linear-gradient(120deg, rgba(255, 255, 255, 0.04), transparent 22%, transparent 76%, rgba(97, 240, 170, 0.02));
+  background:
+    linear-gradient(120deg, rgba(255, 255, 255, 0.055), transparent 22%, transparent 76%, rgba(159, 242, 107, 0.025)),
+    linear-gradient(90deg, transparent 0 calc(100% - 1px), rgba(0, 0, 0, 0.24) calc(100% - 1px));
 }
 
 .hero-panel {
@@ -305,7 +315,7 @@ select {
 
 .status-pill-stable,
 .status-pill-online {
-  border-color: rgba(97, 240, 170, 0.18);
+  border-color: rgba(159, 242, 107, 0.2);
   background: var(--accent-soft);
   color: var(--accent);
 }
@@ -549,8 +559,8 @@ select {
 
 .report-section {
   padding: 14px 16px;
-  border-radius: 16px;
-  border: 1px solid rgba(97, 240, 170, 0.08);
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(227, 219, 196, 0.1);
   background: rgba(255, 255, 255, 0.02);
 }
 
@@ -566,8 +576,8 @@ select {
 .compact-row,
 .inventory-row {
   padding: 16px 18px;
-  border-radius: 16px;
-  border: 1px solid rgba(97, 240, 170, 0.08);
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(227, 219, 196, 0.1);
   background: rgba(255, 255, 255, 0.02);
 }
 
@@ -599,7 +609,7 @@ select {
   position: absolute;
   inset: 0;
   pointer-events: none;
-  background: linear-gradient(180deg, transparent 0%, rgba(97, 240, 170, 0.04) 48%, transparent 100%);
+  background: linear-gradient(180deg, transparent 0%, rgba(159, 242, 107, 0.055) 48%, transparent 100%);
   transform: translateY(-100%);
   animation: scan-sweep 7s linear infinite;
 }
@@ -610,7 +620,7 @@ select {
 }
 
 .console-toolbar {
-  border-bottom: 1px solid rgba(97, 240, 170, 0.08);
+  border-bottom: 1px solid rgba(227, 219, 196, 0.1);
 }
 
 .toolbar-chip {
@@ -619,8 +629,8 @@ select {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  border-radius: 999px;
-  border: 1px solid rgba(97, 240, 170, 0.08);
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(227, 219, 196, 0.1);
   background: rgba(255, 255, 255, 0.02);
   color: var(--muted);
   font-size: 0.86rem;
@@ -649,9 +659,9 @@ select {
 .console-bubble {
   max-width: min(64%, 420px);
   padding: 14px 16px;
-  border-radius: 18px;
-  background: rgba(97, 240, 170, 0.12);
-  border: 1px solid rgba(97, 240, 170, 0.16);
+  border-radius: var(--radius-md);
+  background: rgba(159, 242, 107, 0.12);
+  border: 1px solid rgba(159, 242, 107, 0.18);
 }
 
 .console-command,
@@ -667,11 +677,12 @@ select {
 .console-report {
   width: min(100%, 780px);
   padding: 20px;
-  border-radius: 22px;
-  border: 1px solid rgba(97, 240, 170, 0.1);
+  border-radius: var(--radius-lg);
+  border: 1px solid rgba(227, 219, 196, 0.12);
   background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.02), transparent 28%),
-    rgba(8, 14, 19, 0.96);
+    radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.04) 0 1px, transparent 1px 8px),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.03), transparent 28%),
+    rgba(31, 32, 29, 0.96);
 }
 
 .console-report-high {
@@ -705,7 +716,7 @@ select {
 }
 
 .command-form {
-  border-top: 1px solid rgba(97, 240, 170, 0.08);
+  border-top: 1px solid rgba(227, 219, 196, 0.1);
   display: grid;
   grid-template-columns: auto minmax(0, 1fr) auto;
   gap: 12px;
@@ -717,17 +728,17 @@ select {
   min-height: 46px;
   display: grid;
   place-items: center;
-  border-radius: 14px;
-  border: 1px solid rgba(97, 240, 170, 0.12);
-  background: rgba(97, 240, 170, 0.08);
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(159, 242, 107, 0.16);
+  background: rgba(159, 242, 107, 0.09);
   color: var(--accent);
 }
 
 .command-form input,
 .profile-select {
   min-height: 46px;
-  border-radius: 14px;
-  border: 1px solid rgba(97, 240, 170, 0.12);
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(227, 219, 196, 0.13);
   background: rgba(255, 255, 255, 0.03);
   color: var(--text);
   padding: 0 14px;
@@ -737,7 +748,7 @@ select {
 .command-form input:focus,
 .profile-select:focus {
   outline: none;
-  border-color: rgba(97, 240, 170, 0.3);
+  border-color: rgba(159, 242, 107, 0.34);
 }
 
 .summary-grid {

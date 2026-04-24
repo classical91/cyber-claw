@@ -64,7 +64,7 @@ function renderConsoleLog(nextState) {
       createElement(
         "p",
         "empty-note",
-        "No command history is available yet. With demo data removed, this console stays empty until you connect real site data."
+        "No protective actions have been run yet. Start with assess posture, then work through any open exceptions."
       )
     );
     return;
@@ -106,10 +106,10 @@ function renderSidebar(nextState) {
   const summaryItems = [
     ["Mode", nextState.profile.mode],
     ["Risk score", String(metrics.riskScore)],
-    ["Open alerts", String(metrics.activeAlerts)],
-    ["Device issues", String(metrics.deviceIssues)],
-    ["Protected rooms", String(metrics.roomsCovered)],
-    ["Last sweep", formatTimestamp(metrics.lastSweepAt)]
+    ["Open exceptions", String(metrics.activeAlerts)],
+    ["Controls to review", String(metrics.deviceIssues)],
+    ["Mapped controls", String(metrics.roomsCovered)],
+    ["Last action", formatTimestamp(metrics.lastSweepAt, { emptyLabel: "Awaiting action" })]
   ];
 
   for (const [label, value] of summaryItems) {
@@ -122,7 +122,7 @@ function renderSidebar(nextState) {
   const alerts = nextState.alerts.filter((alert) => !alert.resolved);
 
   if (!alerts.length) {
-    consoleAlerts.append(createElement("p", "empty-note", "No open alerts are recorded."));
+    consoleAlerts.append(createElement("p", "empty-note", "No open protective exceptions are recorded."));
   } else {
     for (const alert of alerts) {
       const row = createElement("article", "compact-row");

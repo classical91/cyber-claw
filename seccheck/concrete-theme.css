@@ -1,0 +1,137 @@
+body {
+  background: #111311 !important;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 18% 22%, rgba(255, 255, 255, 0.04) 0 1px, transparent 1px 7px),
+    radial-gradient(circle at 74% 18%, rgba(0, 0, 0, 0.2) 0 1px, transparent 1px 9px),
+    linear-gradient(90deg, transparent 0 calc(50% - 1px), rgba(227, 219, 196, 0.055) calc(50% - 1px) calc(50% + 1px), transparent calc(50% + 1px)),
+    linear-gradient(180deg, #1a1b18 0%, #111311 44%, #0b0d0c 100%);
+  background-size: 9px 9px, 13px 13px, 100% 100%, 100% 100%;
+  z-index: 0;
+}
+
+.home,
+.app {
+  position: relative;
+  z-index: 1;
+  background:
+    radial-gradient(circle at 18% 8%, rgba(146, 139, 116, 0.18), transparent 32%),
+    linear-gradient(180deg, #1a1b18 0%, #111311 46%, #0b0d0c 100%) !important;
+  color: #f3f0e8 !important;
+}
+
+.badge,
+.lm,
+.card,
+.wcard,
+.tb:hover,
+.tb.on,
+.sb-btn:hover,
+.sb-btn.on {
+  background:
+    radial-gradient(circle at 18% 20%, rgba(255, 255, 255, 0.05) 0 1px, transparent 1px 7px),
+    rgba(37, 38, 34, 0.92) !important;
+  border-color: rgba(227, 219, 196, 0.16) !important;
+  border-radius: 8px !important;
+}
+
+.h1 {
+  background: linear-gradient(135deg, #f3f0e8 0%, #9ff26b 100%) !important;
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+}
+
+.badge,
+.sn,
+.tb.on .tb-p,
+.grand b,
+.sp.ok {
+  color: #9ff26b !important;
+}
+
+.sub,
+.sl,
+.sh,
+.cd,
+.wd,
+.ls,
+.tb,
+.grand,
+.sb-label,
+.sp {
+  color: #b9b3a5 !important;
+}
+
+.cta {
+  background: linear-gradient(135deg, #9ff26b, #63c64b) !important;
+  color: #111311 !important;
+  border-radius: 999px !important;
+  box-shadow: 0 18px 38px rgba(99, 198, 75, 0.18) !important;
+}
+
+.topbar,
+.sb,
+.mh {
+  border-color: rgba(227, 219, 196, 0.12) !important;
+}
+
+.body,
+.main {
+  background: transparent !important;
+}
+
+.item {
+  background:
+    radial-gradient(circle at 18% 20%, rgba(255, 255, 255, 0.04) 0 1px, transparent 1px 7px),
+    rgba(37, 38, 34, 0.92) !important;
+  border-color: rgba(227, 219, 196, 0.12) !important;
+  border-radius: 8px !important;
+}
+
+.item:hover,
+.item.on {
+  background:
+    radial-gradient(circle at 18% 20%, rgba(255, 255, 255, 0.055) 0 1px, transparent 1px 7px),
+    rgba(48, 50, 43, 0.96) !important;
+  border-color: rgba(159, 242, 107, 0.28) !important;
+}
+
+.sw,
+.ta {
+  background: rgba(28, 30, 27, 0.9) !important;
+  border-color: rgba(227, 219, 196, 0.14) !important;
+  border-radius: 6px !important;
+}
+
+.sw input,
+.it {
+  color: #f3f0e8 !important;
+}
+
+.ip,
+.mm {
+  color: #8f8878 !important;
+}
+
+.cb {
+  border-color: rgba(159, 242, 107, 0.28) !important;
+  background: rgba(14, 16, 13, 0.62) !important;
+}
+
+.cb.on,
+.pbf {
+  background: #63c64b !important;
+}
+
+.lt,
+.mt,
+.cn,
+.wt {
+  color: #f3f0e8 !important;
+}
