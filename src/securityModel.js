@@ -9,13 +9,12 @@ export const SECURITY_MODES = {
 export const ROOM_PROFILE_OPTIONS = ["Armed", "Watch", "Maintenance"];
 
 export const COMMAND_SUGGESTIONS = [
-  "scan perimeter",
-  "scan network",
-  "review front door",
-  "arm away",
-  "arm night",
-  "disarm",
-  "secure garage",
+  "assess posture",
+  "harden gateway",
+  "isolate cameras",
+  "review access",
+  "verify backups",
+  "lockdown",
   "help"
 ];
 
@@ -36,196 +35,196 @@ const SEVERITY_SCORES = {
 
 const ROOM_BLUEPRINTS = [
   {
-    id: "front-entry",
-    name: "Front Entry",
-    zone: "Perimeter",
-    coverage: "Doorbell cam, smart lock, contact sensor",
-    narrative: "Porch line is quiet and the lock is reporting normally.",
+    id: "identity",
+    name: "Identity",
+    zone: "Accounts",
+    coverage: "Password manager, MFA, recovery contacts",
+    narrative: "Critical accounts should use unique passwords, authenticator MFA, and current recovery channels.",
     defaultProfile: "Armed"
   },
   {
-    id: "living-room",
-    name: "Living Room",
-    zone: "Interior",
-    coverage: "Motion detector, glass-break, siren relay",
-    narrative: "Interior motion is quiet with no unexpected movement after sunset.",
+    id: "gateway",
+    name: "Gateway",
+    zone: "Network",
+    coverage: "Router admin, DNS, UPnP, guest network",
+    narrative: "The router is the first protective boundary: admin access, exposed services, and update posture matter most.",
     defaultProfile: "Watch"
   },
   {
-    id: "garage",
-    name: "Garage",
-    zone: "Perimeter",
-    coverage: "Window vibration sensor, camera, contact strip",
-    narrative: "Garage shell is armed, but one side-window sensor is drifting.",
+    id: "cameras",
+    name: "Cameras",
+    zone: "IoT",
+    coverage: "Doorbells, indoor cameras, NVR/cloud accounts",
+    narrative: "Camera accounts and IoT network isolation reduce the blast radius of a vendor or password compromise.",
     defaultProfile: "Armed"
   },
   {
-    id: "backyard",
-    name: "Backyard",
-    zone: "Perimeter",
-    coverage: "Gate contact, patio flood, yard camera",
-    narrative: "Fence line is covered, though the gate battery is nearing swap time.",
+    id: "endpoints",
+    name: "Endpoints",
+    zone: "Devices",
+    coverage: "Windows, phones, browser profiles, security updates",
+    narrative: "Protected devices should be patched, encrypted, screen-locked, and free of stale admin accounts.",
     defaultProfile: "Armed"
   },
   {
-    id: "upstairs",
-    name: "Upstairs Hall",
-    zone: "Interior",
-    coverage: "Hall cam, stair motion, bedroom door contacts",
-    narrative: "Night routing is clean and upstairs contacts are stable.",
+    id: "backup",
+    name: "Backup",
+    zone: "Recovery",
+    coverage: "Cloud backup, local backup, restore test",
+    narrative: "Recovery is protective only when a recent restore has been tested, not just when files appear synced.",
     defaultProfile: "Watch"
   },
   {
-    id: "utility-room",
-    name: "Utility Room",
-    zone: "Core Systems",
-    coverage: "Router, mesh repeater, backup power monitor",
-    narrative: "Core network stays isolated here so cameras and locks stay segmented.",
+    id: "response",
+    name: "Response",
+    zone: "Incident Plan",
+    coverage: "Lockdown steps, contact list, evidence capture",
+    narrative: "A response plan turns alerts into concrete actions: preserve evidence, isolate risk, rotate access, and recover.",
     defaultProfile: "Watch"
   }
 ];
 
 const DEVICE_BLUEPRINTS = [
   {
-    id: "front-door-cam",
-    name: "Front Door Camera",
-    roomId: "front-entry",
-    type: "Camera",
+    id: "password-manager",
+    name: "Password Manager",
+    roomId: "identity",
+    type: "Account Control",
     signal: "Strong",
-    firmware: "v3.1.4",
+    firmware: "MFA enabled",
     battery: null
   },
   {
-    id: "front-door-lock",
-    name: "Front Door Lock",
-    roomId: "front-entry",
-    type: "Smart Lock",
+    id: "email-recovery",
+    name: "Email Recovery",
+    roomId: "identity",
+    type: "Recovery Control",
     signal: "Strong",
-    firmware: "v2.8.1",
-    battery: 88
-  },
-  {
-    id: "porch-motion",
-    name: "Porch Motion Sensor",
-    roomId: "front-entry",
-    type: "Motion Sensor",
-    signal: "Strong",
-    firmware: "v1.8.0",
-    battery: 72
-  },
-  {
-    id: "living-glass",
-    name: "Living Room Glass Break",
-    roomId: "living-room",
-    type: "Acoustic Sensor",
-    signal: "Strong",
-    firmware: "v1.4.3",
-    battery: 81
-  },
-  {
-    id: "living-siren",
-    name: "Interior Siren",
-    roomId: "living-room",
-    type: "Siren Relay",
-    signal: "Strong",
-    firmware: "v2.0.1",
+    firmware: "Review due",
     battery: null
   },
   {
-    id: "garage-glass",
-    name: "Garage Side Window Sensor",
-    roomId: "garage",
-    type: "Vibration Sensor",
-    signal: "Intermittent",
-    firmware: "v1.2.8",
-    battery: 62
-  },
-  {
-    id: "garage-cam",
-    name: "Garage Camera",
-    roomId: "garage",
-    type: "Camera",
-    signal: "Strong",
-    firmware: "v3.0.9",
+    id: "router-admin",
+    name: "Router Admin Surface",
+    roomId: "gateway",
+    type: "Network Control",
+    signal: "Review",
+    firmware: "UPnP unknown",
     battery: null
   },
   {
-    id: "back-gate-contact",
-    name: "Back Gate Contact",
-    roomId: "backyard",
-    type: "Contact Sensor",
+    id: "dns-filter",
+    name: "Protective DNS",
+    roomId: "gateway",
+    type: "Network Control",
     signal: "Strong",
-    firmware: "v1.5.2",
-    battery: 14
-  },
-  {
-    id: "yard-cam",
-    name: "Backyard Camera",
-    roomId: "backyard",
-    type: "Camera",
-    signal: "Strong",
-    firmware: "v3.1.0",
+    firmware: "Configured",
     battery: null
   },
   {
-    id: "upstairs-cam",
-    name: "Upstairs Hall Camera",
-    roomId: "upstairs",
-    type: "Camera",
-    signal: "Strong",
-    firmware: "v3.0.8",
+    id: "camera-vlan",
+    name: "Camera Isolation",
+    roomId: "cameras",
+    type: "Segmentation Control",
+    signal: "Review",
+    firmware: "Shared LAN",
     battery: null
   },
   {
-    id: "utility-router",
-    name: "Security Gateway",
-    roomId: "utility-room",
-    type: "Router",
+    id: "camera-account",
+    name: "Camera Cloud Account",
+    roomId: "cameras",
+    type: "Account Control",
     signal: "Strong",
-    firmware: "v1.0.8",
+    firmware: "MFA enabled",
     battery: null
   },
   {
-    id: "mesh-repeater",
-    name: "Garage Mesh Repeater",
-    roomId: "utility-room",
-    type: "Mesh Repeater",
-    signal: "Good",
-    firmware: "v2.2.6",
+    id: "windows-patching",
+    name: "Windows Patch Level",
+    roomId: "endpoints",
+    type: "Endpoint Control",
+    signal: "Strong",
+    firmware: "Current",
+    battery: null
+  },
+  {
+    id: "browser-extensions",
+    name: "Browser Extensions",
+    roomId: "endpoints",
+    type: "Endpoint Control",
+    signal: "Review",
+    firmware: "Audit due",
+    battery: null
+  },
+  {
+    id: "cloud-backup",
+    name: "Cloud Backup",
+    roomId: "backup",
+    type: "Recovery Control",
+    signal: "Strong",
+    firmware: "Running",
+    battery: null
+  },
+  {
+    id: "restore-test",
+    name: "Restore Test",
+    roomId: "backup",
+    type: "Recovery Control",
+    signal: "Review",
+    firmware: "Never tested",
+    battery: null
+  },
+  {
+    id: "incident-contacts",
+    name: "Incident Contacts",
+    roomId: "response",
+    type: "Response Control",
+    signal: "Strong",
+    firmware: "Current",
+    battery: null
+  },
+  {
+    id: "evidence-folder",
+    name: "Evidence Folder",
+    roomId: "response",
+    type: "Response Control",
+    signal: "Strong",
+    firmware: "Prepared",
     battery: null
   }
 ];
 
 const PLAYBOOK_BLUEPRINTS = [
   {
-    id: "night-lock",
-    name: "Night lock sweep",
-    trigger: "11:00 PM daily",
-    coverage: "Front door, patio slider, backyard gate",
+    id: "weekly-posture",
+    name: "Weekly posture review",
+    trigger: "Every Sunday",
+    coverage: "Accounts, endpoints, router exposure",
     armedModes: [SECURITY_MODES.NIGHT, SECURITY_MODES.AWAY, SECURITY_MODES.LOCKDOWN],
-    defaultState: "Standby"
+    defaultState: "Active"
   },
   {
-    id: "garage-isolation",
-    name: "Garage isolation",
-    trigger: "On missed heartbeat or glass event",
-    coverage: "Garage camera, floodlight, siren relay",
+    id: "camera-isolation",
+    name: "Camera isolation",
+    trigger: "On vendor/account risk",
+    coverage: "Camera VLAN, cloud account, local admin passwords",
     armedModes: [SECURITY_MODES.AWAY, SECURITY_MODES.LOCKDOWN],
     defaultState: "Standby"
   },
   {
-    id: "delivery-watch",
-    name: "Delivery watch",
-    trigger: "Front door person detection 8:00 AM - 8:00 PM",
-    coverage: "Doorbell camera, porch light, package labels",
+    id: "account-lockdown",
+    name: "Account lockdown",
+    trigger: "On suspicious login or password reuse",
+    coverage: "Email, password manager, recovery channels",
     armedModes: [SECURITY_MODES.HOME, SECURITY_MODES.AWAY],
     defaultState: "Active"
   },
   {
-    id: "network-failsafe",
-    name: "Network failsafe",
-    trigger: "Gateway patch drift or repeater loss",
-    coverage: "Gateway isolation, phone alert, backup LTE route",
+    id: "recovery-check",
+    name: "Recovery check",
+    trigger: "After backup changes or device replacement",
+    coverage: "Cloud backup, local backup, restore test",
     armedModes: [
       SECURITY_MODES.HOME,
       SECURITY_MODES.NIGHT,
@@ -247,17 +246,69 @@ function minutesAgo(minutes) {
 function createBlankState() {
   return {
     profile: {
-      siteName: "Unconfigured Site",
-      mode: SECURITY_MODES.DISARMED,
-      riskScore: 0,
-      quietHours: "Not configured",
-      responseWindow: "Not configured",
-      networkName: "Not connected"
+      siteName: "Local Protection Plan",
+      mode: SECURITY_MODES.HOME,
+      riskScore: RISK_BASE[SECURITY_MODES.HOME],
+      quietHours: "Review weekly",
+      responseWindow: "15 min",
+      networkName: "Home network"
     },
-    rooms: [],
-    devices: [],
-    alerts: [],
-    playbooks: [],
+    rooms: ROOM_BLUEPRINTS.map((room) => ({
+      ...room,
+      profile: room.defaultProfile,
+      status: "stable",
+      lastSweepAt: ""
+    })),
+    devices: DEVICE_BLUEPRINTS.map((device) => ({
+      ...device,
+      status: device.signal === "Review" ? "warning" : "online",
+      lastSeenAt: ""
+    })),
+    alerts: [
+      {
+        id: "camera-isolation-needed",
+        severity: "high",
+        roomId: "cameras",
+        title: "Camera devices need isolation review",
+        detail:
+          "Cameras and doorbells should be kept away from personal laptops, phones, and file shares on a separate IoT segment.",
+        recommendation:
+          "Run `isolate cameras`, then move cameras and recorders to a guest/IoT segment with no inbound access to personal devices.",
+        command: "isolate cameras",
+        observedAt: "",
+        resolved: false
+      },
+      {
+        id: "router-upnp-review",
+        severity: "medium",
+        roomId: "gateway",
+        title: "Router exposure review needed",
+        detail:
+          "Confirm UPnP is disabled, router admin is not reachable from WAN, and vendor firmware is current.",
+        recommendation:
+          "Run `harden gateway`, then verify the router admin password and firmware from the router UI.",
+        command: "harden gateway",
+        observedAt: "",
+        resolved: false
+      },
+      {
+        id: "restore-test-due",
+        severity: "medium",
+        roomId: "backup",
+        title: "Backup restore test is due",
+        detail:
+          "Backups are not protective until a recent file restore has been tested and documented.",
+        recommendation:
+          "Run `verify backups`, restore one file from cloud and one from local backup, then record the result.",
+        command: "verify backups",
+        observedAt: "",
+        resolved: false
+      }
+    ],
+    playbooks: PLAYBOOK_BLUEPRINTS.map((playbook) => ({
+      ...playbook,
+      state: playbook.defaultState
+    })),
     commandLog: [],
     updatedAt: ""
   };
@@ -273,94 +324,52 @@ function setDeviceState(state, deviceId, updates) {
 function createSampleState() {
   const state = createBlankState();
 
-  state.rooms.find((room) => room.id === "front-entry").lastSweepAt = minutesAgo(3);
-  state.rooms.find((room) => room.id === "garage").lastSweepAt = minutesAgo(14);
-  state.rooms.find((room) => room.id === "backyard").lastSweepAt = minutesAgo(8);
-  state.rooms.find((room) => room.id === "living-room").lastSweepAt = minutesAgo(10);
-  state.rooms.find((room) => room.id === "upstairs").lastSweepAt = minutesAgo(17);
-  state.rooms.find((room) => room.id === "utility-room").lastSweepAt = minutesAgo(21);
+  state.rooms.find((room) => room.id === "identity").lastSweepAt = minutesAgo(3);
+  state.rooms.find((room) => room.id === "gateway").lastSweepAt = minutesAgo(14);
+  state.rooms.find((room) => room.id === "cameras").lastSweepAt = minutesAgo(8);
+  state.rooms.find((room) => room.id === "endpoints").lastSweepAt = minutesAgo(10);
+  state.rooms.find((room) => room.id === "backup").lastSweepAt = minutesAgo(17);
+  state.rooms.find((room) => room.id === "response").lastSweepAt = minutesAgo(21);
 
-  setDeviceState(state, "front-door-cam", {
-    status: "online",
-    lastSeenAt: minutesAgo(1)
-  });
-  setDeviceState(state, "front-door-lock", {
-    status: "online",
-    lastSeenAt: minutesAgo(2)
-  });
-  setDeviceState(state, "porch-motion", {
-    status: "online",
-    lastSeenAt: minutesAgo(2)
-  });
-  setDeviceState(state, "living-glass", {
-    status: "online",
-    lastSeenAt: minutesAgo(5)
-  });
-  setDeviceState(state, "living-siren", {
-    status: "online",
-    lastSeenAt: minutesAgo(5)
-  });
-  setDeviceState(state, "garage-glass", {
-    status: "warning",
-    lastSeenAt: minutesAgo(12)
-  });
-  setDeviceState(state, "garage-cam", {
-    status: "online",
-    lastSeenAt: minutesAgo(3)
-  });
-  setDeviceState(state, "back-gate-contact", {
-    status: "low-battery",
-    lastSeenAt: minutesAgo(6)
-  });
-  setDeviceState(state, "yard-cam", {
-    status: "online",
-    lastSeenAt: minutesAgo(4)
-  });
-  setDeviceState(state, "upstairs-cam", {
-    status: "online",
-    lastSeenAt: minutesAgo(7)
-  });
-  setDeviceState(state, "utility-router", {
-    status: "online",
-    lastSeenAt: minutesAgo(1)
-  });
-  setDeviceState(state, "mesh-repeater", {
-    status: "warning",
-    lastSeenAt: minutesAgo(11)
-  });
+  for (const device of state.devices) {
+    setDeviceState(state, device.id, {
+      status: device.signal === "Review" ? "warning" : "online",
+      lastSeenAt: minutesAgo(5)
+    });
+  }
 
   state.alerts = [
     {
-      id: "garage-heartbeat",
+      id: "camera-isolation-needed",
       severity: "high",
-      roomId: "garage",
-      title: "Garage side window missed heartbeat",
+      roomId: "cameras",
+      title: "Camera devices share the main LAN",
       detail:
-        "The vibration sensor has been silent for 12 minutes while the garage shell remains armed.",
+        "Camera devices appear to sit on the same trusted LAN as laptops and phones, increasing blast radius if a camera account or firmware is compromised.",
       recommendation:
-        "Inspect the side window contact, then verify the mesh repeater has power and a stable signal.",
-      command: "secure garage",
+        "Run `isolate cameras`, then move cameras and recorders to a guest/IoT segment with no inbound access to personal devices.",
+      command: "isolate cameras",
       observedAt: minutesAgo(12),
       resolved: false
     },
     {
-      id: "back-gate-battery",
+      id: "restore-test-due",
       severity: "medium",
-      roomId: "backyard",
-      title: "Back gate contact battery low",
+      roomId: "backup",
+      title: "Backup restore test is due",
       detail:
-        "Battery estimate is down to 14%. Reporting still works, but the failure margin is thin.",
-      recommendation: "Swap the cell within the next 24 hours before the overnight window.",
+        "Cloud and local backup jobs are configured, but a file restore has not been tested recently.",
+      recommendation: "Run `verify backups`, then restore one file from each backup path and record the result.",
       observedAt: minutesAgo(34),
       resolved: false
     },
     {
-      id: "front-delivery",
+      id: "account-review",
       severity: "info",
-      roomId: "front-entry",
-      title: "Front door delivery tagged",
-      detail: "Doorbell camera recorded a courier stop and auto-tagged it as a package drop.",
-      recommendation: "No action required.",
+      roomId: "identity",
+      title: "Quarterly account review queued",
+      detail: "Review shared accounts, recovery emails, and stale devices before the next travel window.",
+      recommendation: "Run `review access` and remove any sessions or recovery channels you no longer recognize.",
       observedAt: minutesAgo(94),
       resolved: true
     }
@@ -370,37 +379,37 @@ function createSampleState() {
     {
       id: "seed-user-1",
       role: "user",
-      text: "scan perimeter",
+      text: "assess posture",
       timestamp: minutesAgo(9)
     },
     {
       id: "seed-assistant-1",
       role: "assistant",
-      title: "Perimeter Sweep / Jason Residence",
+      title: "Protection Posture / Local Protection Plan",
       summary:
-        "Exterior shell is intact. The garage sensor heartbeat and backyard battery drift still need follow-up.",
+        "Core protective controls are present, but camera segmentation and backup restore testing still need follow-up.",
       severity: "medium",
       sections: [
         {
-          label: "Zones Checked",
+          label: "Controls Checked",
           items: [
-            "Front entry contacts are closed and the smart lock is reporting normally.",
-            "Patio and backyard camera coverage are online with no motion holdovers.",
-            "Garage camera remains online even though the side-window sensor missed heartbeats."
+            "Identity controls use unique credentials and authenticator MFA.",
+            "Router admin and UPnP status still need a direct settings review.",
+            "Camera devices should be isolated from personal laptops and phones."
           ]
         },
         {
           label: "Key Findings",
           items: [
-            "Garage side window sensor missed two reporting intervals.",
-            "Back gate contact battery is nearing end-of-life at 14%."
+            "Camera devices share the main LAN.",
+            "Backup restore test has not been completed recently."
           ]
         },
         {
           label: "Recommended Actions",
           items: [
-            "Run `secure garage` before leaving the house in Away mode.",
-            "Replace the back gate battery during the next daylight check."
+            "Run `isolate cameras` before adding more IoT devices.",
+            "Run `verify backups` before relying on backup coverage."
           ]
         }
       ],
@@ -409,30 +418,30 @@ function createSampleState() {
     {
       id: "seed-user-2",
       role: "user",
-      text: "review front door",
+      text: "harden gateway",
       timestamp: minutesAgo(4)
     },
     {
       id: "seed-assistant-2",
       role: "assistant",
-      title: "Front Entry Review",
+      title: "Gateway Hardening Plan",
       summary:
-        "Front door activity looks routine: one courier stop, two recognized resident events, and no loitering pattern.",
+        "Router hardening should focus on admin exposure, UPnP, firmware, DNS filtering, and guest network boundaries.",
       severity: "low",
       sections: [
         {
-          label: "Recent Activity",
+          label: "Checks",
           items: [
-            "Courier delivery tagged at 1:22 PM.",
-            "Known resident unlock at 6:14 PM.",
-            "Porch motion cleared automatically with no repeat event."
+            "Confirm router admin is not reachable from the internet.",
+            "Disable UPnP unless a specific known service requires it.",
+            "Apply firmware updates from the vendor UI."
           ]
         },
         {
-          label: "Sensor Health",
+          label: "Protective Actions",
           items: [
-            "Doorbell camera is live with strong upstream signal.",
-            "Front door lock battery remains healthy at 88%."
+            "Use a separate guest/IoT SSID for cameras and smart devices.",
+            "Keep DNS filtering enabled for known malware and phishing domains."
           ]
         }
       ],
@@ -527,31 +536,27 @@ function resolveAlertMutably(state, alertId, timestamp) {
   alert.resolved = true;
   alert.resolvedAt = timestamp;
 
-  if (alertId === "garage-heartbeat") {
-    setDeviceState(state, "garage-glass", {
+  if (alertId === "camera-isolation-needed") {
+    setDeviceState(state, "camera-vlan", {
       status: "online",
-      signal: "Strong",
-      lastSeenAt: timestamp
-    });
-    setDeviceState(state, "mesh-repeater", {
-      status: "online",
-      signal: "Strong",
+      signal: "Isolated",
       lastSeenAt: timestamp
     });
   }
 
-  if (alertId === "back-gate-battery") {
-    setDeviceState(state, "back-gate-contact", {
+  if (alertId === "restore-test-due") {
+    setDeviceState(state, "restore-test", {
       status: "online",
-      battery: 96,
+      firmware: "Tested",
       lastSeenAt: timestamp
     });
   }
 
-  if (alertId === "router-firmware") {
-    setDeviceState(state, "utility-router", {
+  if (alertId === "router-upnp-review") {
+    setDeviceState(state, "router-admin", {
       status: "online",
-      firmware: "v1.0.9",
+      signal: "Hardened",
+      firmware: "UPnP disabled",
       lastSeenAt: timestamp
     });
   }
@@ -668,38 +673,31 @@ function createReport(title, summary, severity, sections) {
   };
 }
 
-function buildPerimeterReport(state, timestamp) {
-  setRoomSweep(state, ["front-entry", "garage", "backyard"], timestamp);
+function buildPostureReport(state, timestamp) {
+  setRoomSweep(state, ["identity", "gateway", "cameras", "endpoints", "backup", "response"], timestamp);
 
-  const perimeterRooms = state.rooms.filter((room) =>
-    ["front-entry", "garage", "backyard"].includes(room.id)
-  );
-  const findings = unresolvedAlerts(state)
-    .filter((alert) => ["front-entry", "garage", "backyard"].includes(alert.roomId))
-    .map((alert) => `${alert.title}: ${alert.detail}`);
+  const findings = unresolvedAlerts(state).map((alert) => `${alert.title}: ${alert.detail}`);
 
   const recommendations = findings.length
-    ? unresolvedAlerts(state)
-        .filter((alert) => ["front-entry", "garage", "backyard"].includes(alert.roomId))
-        .map((alert) => alert.recommendation)
-    : ["No perimeter remediation is required right now."];
+    ? unresolvedAlerts(state).map((alert) => alert.recommendation)
+    : ["No protective exceptions are open right now."];
 
   return createReport(
-    `Perimeter Sweep / ${state.profile.siteName}`,
+    `Protection Posture / ${state.profile.siteName}`,
     findings.length
-      ? "Exterior shell is sealed, but two follow-ups remain in the garage and backyard."
-      : "Exterior shell is sealed and all perimeter telemetry is clean.",
-    findings.some((item) => item.toLowerCase().includes("missed heartbeat"))
+      ? "Protective controls are mapped, but open exceptions still need owner action."
+      : "Core protective controls are mapped and no open exceptions remain.",
+    findings.some((item) => item.toLowerCase().includes("camera"))
       ? "medium"
       : "low",
     [
       {
-        label: "Zone Review",
-        items: perimeterRooms.map((room) => `${room.name}: ${room.narrative}`)
+        label: "Control Review",
+        items: state.rooms.map((room) => `${room.name}: ${room.narrative}`)
       },
       {
         label: "Key Findings",
-        items: findings.length ? findings : ["No unresolved perimeter findings."]
+        items: findings.length ? findings : ["No unresolved protective findings."]
       },
       {
         label: "Recommended Actions",
@@ -709,78 +707,136 @@ function buildPerimeterReport(state, timestamp) {
   );
 }
 
-function buildNetworkReport(state, timestamp) {
-  setRoomSweep(state, ["utility-room"], timestamp);
-  ensureAlert(state, {
-    id: "router-firmware",
-    severity: "medium",
-    roomId: "utility-room",
-    title: "Security gateway one patch behind",
-    detail:
-      "Gateway is running v1.0.8 while the latest security patch level is v1.0.9 for UPnP hardening.",
-    recommendation:
-      "Patch the gateway during a quiet window, then re-run a network scan to confirm segmentation stayed intact.",
-    observedAt: timestamp,
-    resolved: false
-  });
-  setDeviceState(state, "utility-router", {
-    status: "warning",
-    lastSeenAt: timestamp
-  });
+function buildGatewayHardeningReport(state, timestamp) {
+  setRoomSweep(state, ["gateway"], timestamp);
+  const resolved = resolveAlertMutably(state, "router-upnp-review", timestamp);
 
   return createReport(
-    "Network Segment Review",
-    "Camera and lock segments remain isolated, but the security gateway should be patched before the next Away window.",
-    "medium",
+    resolved ? "Gateway Hardening Applied" : "Gateway Hardening Review",
+    resolved
+      ? "Router exposure review is marked complete. Keep the vendor UI check as the source of truth for firmware and WAN admin exposure."
+      : "Gateway controls are already marked reviewed. Re-check after router firmware or ISP equipment changes.",
+    "low",
     [
       {
-        label: "Network Edges",
+        label: "Protective Checks",
         items: [
-          "12 home-security endpoints observed on the protected mesh.",
-          "Cameras remain isolated from entertainment devices.",
-          "Guest network is active for non-security clients."
+          "Disable UPnP unless a specific known service requires it.",
+          "Confirm router admin is not reachable from WAN.",
+          "Use a strong router admin password stored in the password manager.",
+          "Keep protective DNS filtering enabled for malware and phishing domains."
         ]
       },
       {
-        label: "Key Findings",
+        label: "Next Manual Verification",
         items: [
-          "Security gateway is one vendor patch behind on firmware.",
-          "Garage repeater recently recovered from an intermittent signal dip."
-        ]
-      },
-      {
-        label: "Recommended Actions",
-        items: [
-          "Schedule the router patch while someone is home.",
-          "After patching, run `scan network` again to confirm isolation and repeater stability."
+          "Open the router UI and verify firmware status.",
+          "Confirm the guest/IoT SSID cannot reach personal laptops or phones."
         ]
       }
     ]
   );
 }
 
-function buildFrontDoorReview(state, timestamp) {
-  setRoomSweep(state, ["front-entry"], timestamp);
+function buildCameraIsolationReport(state, timestamp) {
+  setRoomSweep(state, ["cameras", "gateway"], timestamp);
+  const resolved = resolveAlertMutably(state, "camera-isolation-needed", timestamp);
 
   return createReport(
-    "Front Entry Review",
-    "Front door activity looks routine with recognized residents, one tagged delivery, and no loitering pattern.",
+    resolved ? "Camera Isolation Plan Applied" : "Camera Isolation Review",
+    resolved
+      ? "Camera segmentation exception is resolved in the plan. Move devices to the IoT segment before treating this as physically complete."
+      : "Camera isolation is already marked handled. Re-check after adding a new camera, doorbell, NVR, or smart display.",
     "low",
     [
       {
-        label: "Recent Activity",
+        label: "Isolation Rules",
         items: [
-          "Courier delivery tagged at 1:22 PM and auto-classified as package motion.",
-          "Known resident unlock detected at 6:14 PM.",
-          "No motion clip exceeded the loiter threshold."
+          "Place cameras, doorbells, and NVRs on a guest/IoT network.",
+          "Block IoT-to-LAN access unless a specific local viewer requires it.",
+          "Keep camera cloud accounts behind authenticator MFA.",
+          "Rotate default or shared camera admin passwords."
         ]
       },
       {
-        label: "Sensor Health",
+        label: "Why This Helps",
         items: [
-          "Doorbell camera upstream remains strong.",
-          "Front door lock battery is healthy at 88%.",
-          "Porch motion sensor cleared its last event normally."
+          "A compromised camera should not be able to browse laptops, phones, or file shares.",
+          "Vendor account risk stays separated from the trusted home network."
+        ]
+      }
+    ]
+  );
+}
+
+function buildAccessReviewReport(state, timestamp) {
+  setRoomSweep(state, ["identity", "endpoints"], timestamp);
+  ensureAlert(state, {
+    id: "stale-session-review",
+    severity: "medium",
+    roomId: "identity",
+    title: "Account session review queued",
+    detail:
+      "Shared accounts, recovery emails, and signed-in devices should be reviewed before travel or after any suspicious login.",
+    recommendation:
+      "Open each critical account, remove stale sessions, and confirm recovery email and phone numbers are current.",
+    observedAt: timestamp,
+    resolved: false
+  });
+  setDeviceState(state, "email-recovery", {
+    status: "warning",
+    lastSeenAt: timestamp
+  });
+
+  return createReport(
+    "Access Review Started",
+    "The console queued a focused account review for sessions, recovery channels, MFA, and shared access.",
+    "medium",
+    [
+      {
+        label: "Review Scope",
+        items: [
+          "Email, password manager, banking, cloud storage, GitHub, and device accounts.",
+          "Recovery emails, recovery phone numbers, and authenticator enrollment.",
+          "Logged-in devices and third-party app connections."
+        ]
+      },
+      {
+        label: "Protective Actions",
+        items: [
+          "Remove sessions you do not recognize.",
+          "Rotate any reused or shared passwords.",
+          "Confirm MFA is authenticator-based, not SMS-only where alternatives exist."
+        ]
+      }
+    ]
+  );
+}
+
+function buildBackupVerificationReport(state, timestamp) {
+  setRoomSweep(state, ["backup"], timestamp);
+  const resolved = resolveAlertMutably(state, "restore-test-due", timestamp);
+
+  return createReport(
+    resolved ? "Backup Verification Recorded" : "Backup Verification Review",
+    resolved
+      ? "Restore-test exception is resolved. Keep a dated note of what was restored and from which backup path."
+      : "Restore testing was already marked complete. Re-run it after backup provider, device, or folder changes.",
+    "low",
+    [
+      {
+        label: "Restore Test",
+        items: [
+          "Restore one recent document from cloud backup.",
+          "Restore one important file from local/offline backup.",
+          "Confirm photos, password manager emergency kit, and recovery codes are covered."
+        ]
+      },
+      {
+        label: "Recovery Notes",
+        items: [
+          "A sync folder is not a full backup if deletes sync everywhere.",
+          "A backup is only trusted after a successful restore."
         ]
       }
     ]
@@ -792,58 +848,70 @@ function buildArmReport(state, mode) {
   const unresolvedCount = unresolvedAlerts(state).length;
 
   return createReport(
-    mode === SECURITY_MODES.DISARMED ? "System Disarmed" : `${mode} Mode Engaged`,
+    mode === SECURITY_MODES.DISARMED ? "Protection Monitoring Paused" : `${mode} Protection Mode Set`,
     mode === SECURITY_MODES.DISARMED
-      ? "Perimeter sensors remain visible, but active alarm escalation is paused until you arm the house again."
+      ? "Protective tasks remain visible, but escalation posture is relaxed until you choose a stronger mode."
       : hasHighAlert
-        ? `${mode} mode is active, but one high-priority incident still needs attention before you rely on a clean perimeter.`
+        ? `${mode} mode is active, but a high-priority protective exception still needs owner action.`
         : `${mode} mode is active and the protective playbooks are aligned with the current posture.`,
     mode === SECURITY_MODES.DISARMED ? "medium" : hasHighAlert ? "medium" : "low",
     [
       {
-        label: "System Actions",
+        label: "Protective Actions",
         items: [
-          `${mode === SECURITY_MODES.DISARMED ? "Paused" : "Enabled"} lock, motion, and siren escalation for the configured rooms.`,
-          "Updated automation playbooks to match the new protection mode.",
+          `${mode === SECURITY_MODES.DISARMED ? "Relaxed" : "Raised"} escalation posture for mapped controls.`,
+          "Updated response playbooks to match the selected posture.",
           `Current unresolved incident count: ${unresolvedCount}.`
         ]
       },
       {
         label: "Recommendations",
         items: hasHighAlert
-          ? ["Run `secure garage` before leaving for an extended period."]
+          ? ["Resolve high-priority exceptions before relying on this posture."]
           : ["No immediate exception blocks this posture change."]
       }
     ]
   );
 }
 
-function buildGarageSecureReport(state, timestamp) {
-  const resolved = resolveAlertMutably(state, "garage-heartbeat", timestamp);
-  setRoomSweep(state, ["garage", "utility-room"], timestamp);
+function buildLockdownReport(state, timestamp) {
+  state.profile.mode = SECURITY_MODES.LOCKDOWN;
+  applyModeProfiles(state, SECURITY_MODES.LOCKDOWN);
+  setRoomSweep(state, ["identity", "gateway", "cameras", "endpoints", "response"], timestamp);
+  ensureAlert(state, {
+    id: "lockdown-followup",
+    severity: "medium",
+    roomId: "response",
+    title: "Lockdown follow-up required",
+    detail:
+      "Lockdown is a containment posture. Manual follow-up is still needed for password rotation, session removal, and evidence notes.",
+    recommendation:
+      "Capture what happened, rotate critical account passwords, remove stale sessions, then return to Home mode when stable.",
+    observedAt: timestamp,
+    resolved: false
+  });
 
   return createReport(
-    resolved ? "Garage Channel Stabilized" : "Garage Already Stable",
-    resolved
-      ? "Garage side-window telemetry is back online and the repeater path is reporting cleanly."
-      : "No open garage heartbeat issue was found. The current state is already stable.",
-    "low",
+    "Lockdown Containment Started",
+    "The protection plan is now in Lockdown posture. This is for containment and evidence preservation, not routine monitoring.",
+    "medium",
     [
       {
-        label: "Actions Applied",
-        items: resolved
-          ? [
-              "Marked the garage heartbeat incident as resolved.",
-              "Restored garage sensor and repeater health to online."
-            ]
-          : ["No active garage remediation was needed."]
+        label: "Immediate Actions",
+        items: [
+          "Stop adding new devices or accounts until the issue is understood.",
+          "Rotate passwords for email, password manager, banking, cloud, and router admin if compromise is suspected.",
+          "Remove unfamiliar sessions and connected apps from critical accounts.",
+          "Preserve screenshots, timestamps, emails, logs, and account alerts."
+        ]
       },
       {
-        label: "Current Status",
+        label: "Return Criteria",
         items: [
-          "Garage camera remains online.",
-          "Garage side-window sensor is now reporting on schedule.",
-          "Perimeter risk score recalculated after the fix."
+          "No unknown sessions remain.",
+          "Critical passwords and MFA have been verified.",
+          "Gateway and camera isolation have been reviewed.",
+          "Backups are verified before cleanup or rebuild work."
         ]
       }
     ]
@@ -853,19 +921,18 @@ function buildGarageSecureReport(state, timestamp) {
 function buildHelpReport() {
   return createReport(
     "Command Library",
-    "Use the console like an operator surface. These commands are currently wired into Home Sentinel.",
+    "Use the console as a protective operations checklist. It does not capture packets; NULLVAULT handles local network capture.",
     "low",
     [
       {
         label: "Available Commands",
         items: [
-          "scan perimeter",
-          "scan network",
-          "review front door",
-          "arm away",
-          "arm night",
-          "disarm",
-          "secure garage"
+          "assess posture",
+          "harden gateway",
+          "isolate cameras",
+          "review access",
+          "verify backups",
+          "lockdown"
         ]
       }
     ]
@@ -875,7 +942,7 @@ function buildHelpReport() {
 function buildUnknownReport(command) {
   return createReport(
     "Command Not Recognized",
-    `The console does not understand "${command}" yet, but perimeter, network, front-door, and arm-state workflows are supported.`,
+    `The console does not understand "${command}" yet, but posture, gateway, camera, access, backup, and lockdown workflows are supported.`,
     "medium",
     [
       {
@@ -888,24 +955,24 @@ function buildUnknownReport(command) {
 
 function buildUnconfiguredReport(command = "") {
   return createReport(
-    "Site Not Configured",
+    "Protection Plan Not Configured",
     command
-      ? `Ignored "${command}" because Home Sentinel is running without demo data and without a real site configuration.`
-      : "Home Sentinel is running without demo data and without a real site configuration.",
+      ? `Ignored "${command}" because no protection controls are configured yet.`
+      : "No protection controls are configured yet.",
     "low",
     [
       {
         label: "Current State",
         items: [
-          "No rooms are configured.",
-          "No devices are registered.",
-          "No alerts or historical incidents are preloaded."
+          "No control domains are mapped.",
+          "No protective actions are available.",
+          "No exceptions or response workflows are configured."
         ]
       },
       {
         label: "Next Step",
         items: [
-          "Connect a real data source or add a real site configuration before running scans or reviews."
+          "Restore the default protection plan or add real control domains before running workflows."
         ]
       }
     ]
@@ -991,12 +1058,16 @@ export function runConsoleCommand(state, rawCommand) {
     };
   }
 
-  if (normalized === "scan perimeter") {
-    report = buildPerimeterReport(next, timestamp);
-  } else if (normalized === "scan network") {
-    report = buildNetworkReport(next, timestamp);
-  } else if (normalized === "review front door") {
-    report = buildFrontDoorReview(next, timestamp);
+  if (normalized === "assess posture" || normalized === "scan perimeter") {
+    report = buildPostureReport(next, timestamp);
+  } else if (normalized === "harden gateway" || normalized === "scan network") {
+    report = buildGatewayHardeningReport(next, timestamp);
+  } else if (normalized === "isolate cameras") {
+    report = buildCameraIsolationReport(next, timestamp);
+  } else if (normalized === "review access" || normalized === "review front door") {
+    report = buildAccessReviewReport(next, timestamp);
+  } else if (normalized === "verify backups") {
+    report = buildBackupVerificationReport(next, timestamp);
   } else if (normalized === "arm away") {
     next.profile.mode = SECURITY_MODES.AWAY;
     applyModeProfiles(next, SECURITY_MODES.AWAY);
@@ -1014,11 +1085,9 @@ export function runConsoleCommand(state, rawCommand) {
     applyModeProfiles(next, SECURITY_MODES.DISARMED);
     report = buildArmReport(next, SECURITY_MODES.DISARMED);
   } else if (normalized === "lockdown") {
-    next.profile.mode = SECURITY_MODES.LOCKDOWN;
-    applyModeProfiles(next, SECURITY_MODES.LOCKDOWN);
-    report = buildArmReport(next, SECURITY_MODES.LOCKDOWN);
+    report = buildLockdownReport(next, timestamp);
   } else if (normalized === "secure garage") {
-    report = buildGarageSecureReport(next, timestamp);
+    report = buildCameraIsolationReport(next, timestamp);
   } else if (normalized === "help") {
     report = buildHelpReport();
   } else {

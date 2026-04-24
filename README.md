@@ -2,7 +2,7 @@
 
 Home Sentinel is the Cyber Claw command-center shell. It links the active security workspaces:
 
-- `/seccheck/` for SecSecurity
+- `/seccheck/` for Security Checklists
 - `/threat-console.html` for the threat console
 - `/nullvault/` for the NULLVAULT packet and local-network workspace
 
