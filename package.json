@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "node server.js",
     "server": "node server.js",
-    "start": "node server.js"
+    "start": "node server.js",
+    "test": "npm --prefix apps/nullvault test"
   }
 }

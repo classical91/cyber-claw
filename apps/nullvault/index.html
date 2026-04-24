@@ -3,10 +3,38 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>NULLVAULT</title>
-    <link rel="stylesheet" href="/nullvault.css" />
+    <title>NULLVAULT | Local Network Capture Workspace</title>
+    <meta
+      name="description"
+      content="NULLVAULT is a Cyber Claw workspace for local Wi-Fi audits, packet capture summaries, and network security review."
+    />
+    <link rel="canonical" href="https://home-sentinel-production-4b68.up.railway.app/nullvault/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="NULLVAULT | Local Network Capture Workspace" />
+    <meta
+      property="og:description"
+      content="Review local Wi-Fi audit signals, packet capture summaries, and network security findings in a desktop command workspace."
+    />
+    <meta property="og:url" content="https://home-sentinel-production-4b68.up.railway.app/nullvault/" />
+    <meta property="og:image" content="https://home-sentinel-production-4b68.up.railway.app/nullvault/og.svg" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="NULLVAULT | Local Network Capture Workspace" />
+    <meta
+      name="twitter:description"
+      content="Cyber Claw network-security workspace for local capture review and Wi-Fi audit summaries."
+    />
+    <meta name="twitter:image" content="https://home-sentinel-production-4b68.up.railway.app/nullvault/og.svg" />
+    <link rel="stylesheet" href="./nullvault.css" />
   </head>
   <body>
+    <main id="mobile-limited" aria-labelledby="mobile-limited-title">
+      <div class="mobile-limited-mark">NULLVAULT</div>
+      <h1 id="mobile-limited-title">Desktop workspace required</h1>
+      <p>
+        Packet tables, capture controls, and inspection panes need a wider desktop or tablet
+        viewport. Open NULLVAULT on a larger screen to review live network data.
+      </p>
+    </main>
     <div id="app">
       <div id="topbar">
         <div id="brand-lockup">
@@ -441,6 +469,6 @@
       </div>
     </div>
 
-    <script type="module" src="/src/nullvaultApp.js"></script>
+    <script type="module" src="./src/nullvaultApp.js"></script>
   </body>
 </html>

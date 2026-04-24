@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://home-sentinel-production-4b68.up.railway.app/nullvault/sitemap.xml

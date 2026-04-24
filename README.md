@@ -1,14 +1,42 @@
-# Home Sentinel Archive
+# Cyber Claw Home Sentinel
 
-Archived prototype pages from the earlier home-security UI iteration.
+Home Sentinel is the Cyber Claw command-center shell. It links the active security workspaces:
 
-## Pages
+- `/seccheck/` for SecSecurity
+- `/threat-console.html` for the threat console
+- `/nullvault/` for the NULLVAULT packet and local-network workspace
 
-- [`home-grid.html`](./home-grid.html) shows the room-grid view.
-- [`threat-console.html`](./threat-console.html) shows the operator console view.
-- [`index.html`](./index.html) is a small archive landing page.
+NULLVAULT also keeps its standalone local server for host network tooling at `apps/nullvault/server.js`.
 
-## Notes
+## Run Locally
 
-- These pages now live outside the active `NULLVAULT` root app.
-- Their scripts still reuse the current root security-model helpers from [`src`](../../src).
+```powershell
+npm install
+npm run dev
+```
+
+The root Home Sentinel site starts from `server.js`. NULLVAULT is available from the same server at:
+
+```txt
+http://localhost:<printed-port>/nullvault/
+```
+
+For direct local capture work, run the standalone NULLVAULT server:
+
+```powershell
+npm --prefix apps/nullvault run dev
+```
+
+That server defaults to `http://nullvault.local:30003` or `http://127.0.0.1:30003`.
+
+## Deployment
+
+Railway should deploy from the repository root. The root site remains Cyber Claw/Home Sentinel, and NULLVAULT is mounted as `/nullvault/`.
+
+Host/network command APIs are protected by NULLVAULT's local-mode guard. Public Railway environments return a disabled response for those APIs instead of running host tools.
+
+## Tests
+
+```powershell
+npm test
+```
