@@ -934,3 +934,192 @@ select {
 .auth-banner strong {
   color: #ffd966;
 }
+
+/* ─── Intel Radar ─────────────────────────────────────────────── */
+
+.radar-layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  max-width: 900px;
+}
+
+.radar-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.radar-status {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.radar-filter-bar {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.radar-chip-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.radar-chip {
+  background: var(--surface-raised, rgba(255,255,255,0.04));
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 20px;
+  color: var(--muted);
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 0.78rem;
+  padding: 4px 12px;
+  transition: background 0.15s, border-color 0.15s, color 0.15s;
+}
+
+.radar-chip:hover {
+  border-color: rgba(255,255,255,0.18);
+  color: var(--text);
+}
+
+.radar-chip-active {
+  background: rgba(159, 242, 107, 0.1);
+  border-color: rgba(159, 242, 107, 0.35);
+  color: var(--accent, #9ff26b);
+}
+
+.radar-feed {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.radar-empty {
+  color: var(--muted);
+  font-size: 0.9rem;
+  padding: 24px 0;
+  text-align: center;
+}
+
+/* Additional feed-item severity tiers */
+.feed-item-critical {
+  border-color: rgba(255, 80, 100, 0.35);
+}
+
+.feed-item-low,
+.feed-item-unknown {
+  border-color: rgba(126, 189, 255, 0.12);
+}
+
+.feed-item-link {
+  color: var(--accent, #9ff26b);
+  display: inline-block;
+  font-size: 0.82rem;
+  margin-top: 10px;
+  text-decoration: none;
+}
+
+.feed-item-link:hover {
+  text-decoration: underline;
+}
+
+/* ─── Posture Score ───────────────────────────────────────────── */
+
+.posture-panel {
+  margin-bottom: 0;
+}
+
+.posture-display {
+  display: flex;
+  gap: 32px;
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+
+.posture-score-block {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 90px;
+  gap: 4px;
+}
+
+.posture-number {
+  font-size: 3.2rem;
+  font-weight: 700;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+
+.posture-band-hardened,
+.posture-band-good {
+  color: var(--accent, #9ff26b);
+}
+
+.posture-band-needs-attention {
+  color: #ffbe5c;
+}
+
+.posture-band-risky,
+.posture-band-critical {
+  color: #ff7389;
+}
+
+.posture-band-unconfigured {
+  color: var(--muted);
+}
+
+.posture-band-label {
+  color: var(--muted);
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.posture-categories {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-width: 200px;
+}
+
+.posture-category {
+  display: grid;
+  grid-template-columns: 160px 1fr 36px;
+  align-items: center;
+  gap: 10px;
+}
+
+.posture-category-name {
+  color: var(--muted);
+  font-size: 0.82rem;
+  white-space: nowrap;
+}
+
+.posture-bar-wrap {
+  background: rgba(255,255,255,0.06);
+  border-radius: 4px;
+  height: 6px;
+  overflow: hidden;
+}
+
+.posture-bar-fill {
+  height: 100%;
+  border-radius: 4px;
+  transition: width 0.4s ease;
+}
+
+.posture-bar-good { background: var(--accent, #9ff26b); }
+.posture-bar-warn { background: #ffbe5c; }
+.posture-bar-risk { background: #ff7389; }
+
+.posture-category-score {
+  color: var(--muted);
+  font-size: 0.78rem;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}

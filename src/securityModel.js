@@ -988,6 +988,77 @@ export function hydrateState(incoming) {
   return syncState(mergeState(createBlankState(), incoming ?? {}));
 }
 
+const ROOM_DEDUCTIONS = { alert: 40, watch: 20, stable: 0 };
+
+function scoreCategory(state, roomIds, deviceChecks) {
+  let score = 100;
+  for (const roomId of roomIds) {
+    const room = state.rooms.find((r) => r.id === roomId);
+    if (room) score -= ROOM_DEDUCTIONS[room.status] ?? 0;
+  }
+  for (const { deviceId, deduction } of deviceChecks) {
+    const device = state.devices.find((d) => d.id === deviceId);
+    if (device && device.status !== "online") score -= deduction;
+  }
+  return Math.max(0, Math.min(100, score));
+}
+
+function postureBand(score) {
+  if (score >= 90) return "Hardened";
+  if (score >= 75) return "Good";
+  if (score >= 60) return "Needs Attention";
+  if (score >= 40) return "Risky";
+  return "Critical";
+}
+
+export function getPostureScore(state) {
+  const next = hydrateState(state);
+  if (!hasConfiguredSite(next)) {
+    return { score: 0, band: "Unconfigured", categories: [] };
+  }
+
+  const categories = [
+    {
+      name: "Identity & Access",
+      score: scoreCategory(next, ["identity"], [
+        { deviceId: "password-manager", deduction: 20 },
+        { deviceId: "email-recovery", deduction: 10 }
+      ])
+    },
+    {
+      name: "Network & Gateway",
+      score: scoreCategory(next, ["gateway"], [
+        { deviceId: "router-admin", deduction: 25 },
+        { deviceId: "dns-filter", deduction: 10 }
+      ])
+    },
+    {
+      name: "Endpoint Protection",
+      score: scoreCategory(next, ["endpoints"], [
+        { deviceId: "windows-patching", deduction: 25 },
+        { deviceId: "browser-extensions", deduction: 10 }
+      ])
+    },
+    {
+      name: "IoT & Segmentation",
+      score: scoreCategory(next, ["cameras"], [
+        { deviceId: "camera-vlan", deduction: 30 },
+        { deviceId: "camera-account", deduction: 10 }
+      ])
+    },
+    {
+      name: "Backup & Recovery",
+      score: scoreCategory(next, ["backup", "response"], [
+        { deviceId: "restore-test", deduction: 20 },
+        { deviceId: "cloud-backup", deduction: 10 }
+      ])
+    }
+  ];
+
+  const score = Math.round(categories.reduce((sum, c) => sum + c.score, 0) / categories.length);
+  return { score, band: postureBand(score), categories };
+}
+
 export function getDashboardMetrics(state) {
   const next = hydrateState(state);
   const unresolved = unresolvedAlerts(next);
@@ -999,6 +1070,7 @@ export function getDashboardMetrics(state) {
     activePlaybooks: next.playbooks.filter((playbook) => playbook.state === "Active").length,
     roomsCovered: next.rooms.filter((room) => room.profile !== "Maintenance").length,
     riskScore: next.profile.riskScore,
+    postureScore: getPostureScore(next),
     lastSweepAt:
       next.commandLog
         .filter((entry) => entry.role === "assistant")
