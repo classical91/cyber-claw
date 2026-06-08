@@ -20,6 +20,8 @@ const IS_PUBLIC_DEPLOY = Boolean(
     process.env.NULLVAULT_PUBLIC_DEPLOY === "1"
 );
 const LOCAL_API_TOKEN = process.env.NULLVAULT_LOCAL_API_TOKEN || "";
+const SAFE_CAPTURES_DIR = process.env.NULLVAULT_CAPTURES_DIR ||
+  path.join(process.env.HOME || process.env.USERPROFILE || "", "Documents", "NULLVAULT", "captures");
 
 const mimeTypes = {
   ".css": "text/css; charset=utf-8",
@@ -416,13 +418,20 @@ async function handleApi(request, response, url) {
       return true;
     }
 
-    if (!existsSync(options.filePath)) {
+    const resolvedPcap = path.resolve(options.filePath);
+    if (!resolvedPcap.startsWith(path.resolve(SAFE_CAPTURES_DIR) + path.sep) &&
+        !resolvedPcap.startsWith(path.resolve(SAFE_CAPTURES_DIR))) {
+      sendJson(response, 400, { ok: false, error: "PCAP file must be inside the captures directory." });
+      return true;
+    }
+
+    if (!existsSync(resolvedPcap)) {
       sendJson(response, 400, { ok: false, error: "PCAP file path does not exist." });
       return true;
     }
 
     try {
-      const result = await runTshark(buildPcapArgs(options), 30000);
+      const result = await runTshark(buildPcapArgs({ ...options, filePath: resolvedPcap }), 30000);
       const summary = summarizePacketCsv(result.stdout);
       sendJson(response, 200, {
         ok: true,
@@ -476,7 +485,11 @@ export function createRequestHandler({ basePath = "" } = {}) {
       const ext = path.extname(filePath);
       response.writeHead(200, {
         "Content-Type": mimeTypes[ext] || "application/octet-stream",
-        "Cache-Control": "no-store"
+        "Cache-Control": "no-store",
+        "X-Content-Type-Options": "nosniff",
+        "Referrer-Policy": "no-referrer",
+        "Permissions-Policy": "camera=(), microphone=(), geolocation=()",
+        "Content-Security-Policy": "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'"
       });
       createReadStream(filePath).pipe(response);
     } catch (error) {

@@ -920,3 +920,17 @@ select {
     scroll-behavior: auto !important;
   }
 }
+
+/* Ethical use banner */
+.auth-banner {
+  background: #1a1200;
+  border-bottom: 1px solid #7a5c00;
+  color: #f0c040;
+  font-size: 0.78rem;
+  padding: 0.4rem 1.2rem;
+  text-align: center;
+  letter-spacing: 0.01em;
+}
+.auth-banner strong {
+  color: #ffd966;
+}
