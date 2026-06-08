@@ -1,5 +1,7 @@
 # Cyber Claw Home Sentinel
 
+> **Authorized use only.** This tool is for auditing systems you own or have explicit written authorization to test. It does not exploit, bypass controls, steal credentials, or attack third-party systems. Using it against systems you do not own or have no authorization to audit may be illegal.
+
 Home Sentinel is the Cyber Claw command-center shell. It links the active security workspaces:
 
 - `/seccheck/` for Security Checklists

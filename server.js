@@ -80,7 +80,11 @@ const server = http.createServer(async (request, response) => {
     const ext = path.extname(filePath);
     response.writeHead(200, {
       "Content-Type": mimeTypes[ext] || "application/octet-stream",
-      "Cache-Control": "no-store"
+      "Cache-Control": "no-store",
+      "X-Content-Type-Options": "nosniff",
+      "Referrer-Policy": "no-referrer",
+      "Permissions-Policy": "camera=(), microphone=(), geolocation=()",
+      "Content-Security-Policy": "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'"
     });
     createReadStream(filePath).pipe(response);
   } catch (error) {
@@ -89,8 +93,8 @@ const server = http.createServer(async (request, response) => {
   }
 });
 
-server.listen(port, () => {
+server.listen(port, "127.0.0.1", () => {
   const address = server.address();
   const actualPort = typeof address === "object" && address ? address.port : port;
-  console.log(`Home Sentinel is running at http://localhost:${actualPort}`);
+  console.log(`Home Sentinel is running at http://127.0.0.1:${actualPort}`);
 });
