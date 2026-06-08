@@ -5,6 +5,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 
 import { createRequestHandler as createNullvaultRequestHandler } from "./apps/nullvault/server.js";
+import { fetchAllFeeds } from "./src/intelFeeds.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -58,6 +59,22 @@ const server = http.createServer(async (request, response) => {
       url.pathname.startsWith("/api/wireshark/")
     ) {
       await nullvaultHandler(request, response);
+      return;
+    }
+
+    if (request.method === "GET" && url.pathname === "/api/intel/feeds") {
+      try {
+        const data = await fetchAllFeeds();
+        response.writeHead(200, {
+          "Content-Type": "application/json; charset=utf-8",
+          "Cache-Control": "no-store",
+          "X-Content-Type-Options": "nosniff"
+        });
+        response.end(JSON.stringify(data));
+      } catch (err) {
+        response.writeHead(500, { "Content-Type": "application/json; charset=utf-8" });
+        response.end(JSON.stringify({ feeds: [], errors: [err.message], fetchedAt: new Date().toISOString() }));
+      }
       return;
     }
 

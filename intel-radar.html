@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Home Sentinel | Intel Radar</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body class="app-body">
+    <div class="ambient-grid" aria-hidden="true"></div>
+
+    <header class="topbar">
+      <a class="brand" href="./index.html" aria-label="Back to Command Center">
+        <span class="brand-mark">HS</span>
+        <span class="brand-copy">
+          <strong>Home Sentinel</strong>
+          <small>Residential Security Command</small>
+        </span>
+      </a>
+
+      <nav class="nav-links" aria-label="Primary">
+        <a href="./index.html">Command Center</a>
+        <a href="./threat-console.html">Threat Console</a>
+        <a aria-current="page" href="./intel-radar.html">Intel Radar</a>
+        <a href="/seccheck/">Security Checklists</a>
+      </nav>
+    </header>
+
+    <main class="app-shell radar-layout">
+      <section class="panel radar-panel reveal">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Threat Intelligence</p>
+            <h1>Intel Radar</h1>
+          </div>
+          <div class="radar-status" id="radar-status"></div>
+        </div>
+
+        <p class="inline-note" id="radar-note">Loading threat intelligence feeds&hellip;</p>
+
+        <div
+          class="radar-filter-bar"
+          id="radar-filters"
+          role="group"
+          aria-label="Filter advisories"
+        ></div>
+
+        <div class="radar-feed" id="radar-feed" aria-live="polite"></div>
+      </section>
+    </main>
+
+    <script type="module" src="./src/intelRadar.js"></script>
+  </body>
+</html>
