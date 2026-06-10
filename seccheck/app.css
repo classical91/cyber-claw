@@ -1,0 +1,149 @@
+/* SecCheck — source styles */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: #0a0e0a;
+  color: #e0e8d8;
+  font-family: "IBM Plex Sans", system-ui, sans-serif;
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+.sc-shell {
+  display: grid;
+  grid-template-rows: auto auto 1fr auto;
+  min-height: 100vh;
+}
+
+/* Header */
+.sc-header {
+  align-items: center;
+  background: rgba(0,0,0,0.4);
+  border-bottom: 1px solid rgba(255,255,255,0.07);
+  display: flex;
+  gap: 20px;
+  justify-content: space-between;
+  padding: 14px 24px;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  flex-wrap: wrap;
+}
+
+.sc-brand strong { color: #9ff26b; font-size: 1rem; }
+.sc-tagline { color: #555; font-size: 0.78rem; display: block; margin-top: 1px; }
+
+.sc-progress-wrap { align-items: center; display: flex; gap: 10px; min-width: 200px; flex: 1; justify-content: flex-end; }
+.sc-progress-bar { background: rgba(255,255,255,0.07); border-radius: 4px; flex: 1; height: 6px; max-width: 200px; overflow: hidden; }
+.sc-progress-fill { background: #9ff26b; height: 100%; border-radius: 4px; transition: width 0.3s ease; }
+.sc-progress-label { color: #666; font-size: 0.78rem; white-space: nowrap; }
+
+/* Nav */
+.sc-nav {
+  background: rgba(0,0,0,0.25);
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px;
+  padding: 8px 16px;
+}
+
+.sc-nav-item {
+  align-items: center;
+  border-radius: 6px;
+  color: #666;
+  display: flex;
+  font-size: 0.76rem;
+  gap: 5px;
+  padding: 5px 10px;
+  text-decoration: none;
+  transition: background 0.12s, color 0.12s;
+}
+
+.sc-nav-item:hover { background: rgba(255,255,255,0.06); color: #ccc; }
+.sc-nav-complete { color: #9ff26b; }
+.sc-nav-complete:hover { background: rgba(159,242,107,0.08); }
+
+/* Main */
+.sc-main { max-width: 860px; margin: 0 auto; padding: 32px 24px 60px; width: 100%; }
+
+/* Category */
+.sc-category { margin-bottom: 48px; }
+.sc-cat-header { align-items: center; display: flex; gap: 10px; margin-bottom: 20px; }
+.sc-cat-icon svg { display: block; }
+.sc-cat-title { font-size: 1.15rem; font-weight: 600; }
+.sc-cat-count { color: #444; font-size: 0.8rem; margin-left: auto; }
+
+/* Subcategory */
+.sc-sub { margin-bottom: 24px; }
+.sc-sub-title { color: #888; font-size: 0.78rem; font-weight: 500; letter-spacing: 0.06em; margin-bottom: 10px; text-transform: uppercase; }
+
+/* Items */
+.sc-items { list-style: none; display: flex; flex-direction: column; gap: 4px; }
+
+.sc-item {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.05);
+  border-radius: 6px;
+  padding: 10px 14px;
+  transition: background 0.12s, border-color 0.12s;
+}
+
+.sc-item:hover { background: rgba(255,255,255,0.05); border-color: rgba(255,255,255,0.09); }
+.sc-item-done { background: rgba(159,242,107,0.04); border-color: rgba(159,242,107,0.12); }
+
+.sc-label { align-items: flex-start; cursor: pointer; display: flex; gap: 10px; }
+
+.sc-check {
+  accent-color: #9ff26b;
+  cursor: pointer;
+  flex-shrink: 0;
+  height: 16px;
+  margin-top: 2px;
+  width: 16px;
+}
+
+.sc-text { color: #d0d8c8; font-size: 0.9rem; }
+.sc-item-done .sc-text { color: #5a7050; text-decoration: line-through; }
+
+.sc-path {
+  color: #444;
+  display: block;
+  font-size: 0.75rem;
+  margin-top: 4px;
+  padding-left: 26px;
+}
+
+/* Footer */
+.sc-footer {
+  align-items: center;
+  border-top: 1px solid rgba(255,255,255,0.06);
+  color: #444;
+  display: flex;
+  font-size: 0.78rem;
+  gap: 16px;
+  justify-content: space-between;
+  padding: 14px 24px;
+}
+
+.sc-reset {
+  background: none;
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 4px;
+  color: #555;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 0.76rem;
+  padding: 4px 10px;
+  transition: border-color 0.12s, color 0.12s;
+}
+
+.sc-reset:hover { border-color: rgba(255,100,100,0.3); color: #ff7389; }
+
+@media (max-width: 600px) {
+  .sc-header { padding: 10px 16px; }
+  .sc-main { padding: 20px 16px 48px; }
+  .sc-nav { padding: 6px 10px; }
+  .sc-nav-item span { display: none; }
+  .sc-nav-item svg { display: block !important; }
+}
