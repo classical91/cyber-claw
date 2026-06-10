@@ -13,6 +13,7 @@ import {
   formatTimestamp,
   setHeaderPills
 } from "./ui.js";
+import { downloadReport, exportHtml, exportMarkdown } from "./reportExporter.js";
 
 const roomGrid = document.querySelector("#room-grid");
 const gridAlerts = document.querySelector("#grid-alerts");
@@ -217,3 +218,20 @@ function render() {
 }
 
 render();
+
+const exportHtmlBtn = document.querySelector("#export-html");
+const exportMdBtn = document.querySelector("#export-md");
+
+if (exportHtmlBtn) {
+  exportHtmlBtn.addEventListener("click", () => {
+    const slug = new Date().toISOString().slice(0, 10);
+    downloadReport(exportHtml(state), `audit-report-${slug}.html`, "text/html");
+  });
+}
+
+if (exportMdBtn) {
+  exportMdBtn.addEventListener("click", () => {
+    const slug = new Date().toISOString().slice(0, 10);
+    downloadReport(exportMarkdown(state), `audit-report-${slug}.md`, "text/markdown");
+  });
+}
