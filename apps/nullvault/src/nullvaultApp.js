@@ -183,17 +183,6 @@ function formatClock(date = new Date()) {
   });
 }
 
-function toClockFromIso(value) {
-  if (!value) {
-    return formatClock();
-  }
-
-  return new Date(value).toLocaleTimeString([], {
-    hour: "numeric",
-    minute: "2-digit"
-  });
-}
-
 function formatPacketTime(packet, packets = currentAnalysis?.packets ?? []) {
   const mode = preferences.timeDisplay;
 
@@ -405,33 +394,6 @@ function buildLayers(packet) {
   }
 
   return summary;
-}
-
-function packetSeedString(packet) {
-  return [
-    packet.protocol,
-    packet.sourceAddress,
-    packet.destinationAddress,
-    packet.sourcePort,
-    packet.destinationPort,
-    packet.info,
-    packet.summary
-  ].join("|");
-}
-
-function buildPacketBytes(packet) {
-  const seed = packetSeedString(packet);
-  const seedCodes = [...seed].map((character) => character.charCodeAt(0));
-  const size = Math.max(64, Math.min(160, Math.ceil(seedCodes.length / 16) * 16));
-  const bytes = new Uint8Array(size);
-
-  for (let index = 0; index < size; index += 1) {
-    const seedValue = seedCodes[index % seedCodes.length] ?? 0;
-    const twist = (packet.no * 17 + index * 11 + packet.length) & 255;
-    bytes[index] = seedValue ^ twist;
-  }
-
-  return bytes;
 }
 
 function renderByteView() {
@@ -1091,27 +1053,6 @@ function buildErrorAnalysis(command, error) {
     command,
     selectedPacketId: null
   };
-}
-
-function buildInitialHistory(state) {
-  const items = [];
-  const log = state.commandLog ?? [];
-
-  for (let index = 0; index < log.length; index += 1) {
-    const entry = log[index];
-    if (entry.role !== "user") {
-      continue;
-    }
-
-    const nextAssistant = log.slice(index + 1).find((item) => item.role === "assistant");
-    items.push({
-      command: entry.text,
-      note: nextAssistant?.title ?? "Seeded simulation",
-      time: toClockFromIso(entry.timestamp)
-    });
-  }
-
-  return items.slice(-6).reverse();
 }
 
 function updateChrome() {
