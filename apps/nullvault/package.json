@@ -8,9 +8,14 @@
     "dev": "node server.js",
     "desktop": "electron .",
     "desktop:dev": "electron .",
-    "test": "node --test --experimental-test-isolation=none"
+    "test": "node --test --experimental-test-isolation=none",
+    "lint": "eslint server.js src/ electron/ test/",
+    "check": "npm run lint && npm test"
   },
   "devDependencies": {
-    "electron": "^41.0.3"
+    "@eslint/js": "^10.0.1",
+    "electron": "^41.0.3",
+    "eslint": "^10.4.1",
+    "globals": "^17.6.0"
   }
 }

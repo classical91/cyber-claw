@@ -1,5 +1,4 @@
-import { createReadStream, existsSync, statSync } from "node:fs";
-import { stat } from "node:fs/promises";
+import { createReadStream, statSync } from "node:fs";
 import http from "node:http";
 import path from "node:path";
 import { fileURLToPath } from "node:url";

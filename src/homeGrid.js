@@ -10,8 +10,7 @@ import {
   clearChildren,
   createElement,
   createStatusPill,
-  formatTimestamp,
-  setHeaderPills
+  formatTimestamp
 } from "./ui.js";
 import { downloadReport, exportHtml, exportMarkdown } from "./reportExporter.js";
 
